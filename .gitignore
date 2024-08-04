@@ -1,8 +1,0 @@
-# Ignore everything
-*
-
-# But don't ignore the specific folder
-!dist/
-
-# Don't ignore anything inside the folder
-!dist/**
