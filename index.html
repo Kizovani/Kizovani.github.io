@@ -66,7 +66,7 @@
 				
 				    // Create loading text
 					const loader = new FontLoader();
-					loader.load('assets/fonts/helvetiker_regular.typeface.json', function(font) {
+					loader.load('res/fonts/helvetiker_regular.typeface.json', function(font) {
 						const geometry = new TextGeometry('LOADING', {
 							font: font,
 							size: 0.3,
@@ -130,7 +130,7 @@
 					//full size (full poly count) model:
 					//'models/scene.gltf',
 					// //low poly model (load times a bit better and alot less system intensive, might lower model count more, also please change this file name lmfao):
-					'assets/models/lowpoly_textures/test3/test0.2then0.5then0.25.gltf',
+					'res/models/lowpoly_textures/test3/test0.2then0.5then0.25.gltf',
 					function(gltf) {
 						console.log('Model loaded successfully');
 						model = gltf.scene;
