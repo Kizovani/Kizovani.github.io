@@ -1,0 +1,8 @@
+Model Information:
+* title:	Angel
+* source:	https://sketchfab.com/3d-models/angel-17d22525b4124088a8827d9c45a2627f
+* author:	Just8 (https://sketchfab.com/Just8)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
