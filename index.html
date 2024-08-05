@@ -127,7 +127,10 @@
 			function loadModel() {
 				const loader = new GLTFLoader();
 				loader.load(
-					'models/scene.gltf',
+					//full size (full poly count) model:
+					//'models/scene.gltf',
+					// //low poly model (load times a bit better and alot less system intensive, might lower model count more, also please change this file name lmfao):
+					'models/lowpoly_textures/test3/test0.2then0.5then0.25.gltf',
 					function(gltf) {
 						console.log('Model loaded successfully');
 						model = gltf.scene;
@@ -145,7 +148,7 @@
 						console.log('Model position:', model.position);
 						console.log('Model scale:', model.scale);
 
-						model.position.y -=0.08; //moving the model down a bit
+						model.position.y -=0.09; //moving the model down a bit
 
 						// Set up animation
 						if (gltf.animations && gltf.animations.length > 0) {
