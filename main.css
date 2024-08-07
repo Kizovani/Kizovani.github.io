@@ -1,19 +1,77 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+@font-face {
     font-family: "Arame Mono";
+    src: url("res/fonts/ArameMono.ttf") format("truetype");
 }
 
-#info {
+:root {
+    --accent: #ffffff;
+    --bg: #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg);
+    font-family: "Arame Mono";
+    color: var(--accent);
+}
+
+.menu-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    width: 200px;
+    height: 35px;
+    overflow: hidden;
+}
+
+.menu-container .col {
     position: absolute;
-    top: 10px;
-    width: 100%;
-    text-align: center;
-    z-index: 100;
-    display: block;
-    color: white;
+    width: 200px;
+    cursor: pointer;
+}
+
+.menu-container .col:nth-child(1) {
+    left: 0;
+}
+
+.menu-container .col:nth-child(2) {
+    left: 200px;
+}
+
+.menu-container .col .menu-item {
+    background: var(--accent);
+    color: var(--bg);
+    margin: 0.075rem;
+    padding: 0.075rem;
+    font-size: 12px;
+}
+
+.menu-container .col-2 .menu-item {
+    position: relative;
+    left: 200px;
+}
+
+.marquee-container {
+    position: absolute;
+    right: 0;
+    width: 200px;
+    padding: 0.5rem;
+    background-color: var(--bg);
+    color: var(--accent);
+    overflow: hidden;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+    display: none;
+    transform: scale(0);
+}
+
+.marquee-container {
+     width: 2000px;
 }

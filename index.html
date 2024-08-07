@@ -11,16 +11,15 @@
 	<body>
 		<div id="menu-container">
 			<div class="col col-1">
-				<div class="menu-item" id="'menu-toggle">menu</div>
+				<div class="menu-item" id="menu-toggle">menu</div>
 			</div>
-			<div class="col col2">
-				<div class="menu-item">Close</div>
+			<div class="col col-2">
+				<div class="menu-item" id="close-menu">Close</div>
 				<div class="menu-item">Home</div>
 				<div class="menu-item">Tools</div>
 				<div class="menu-item">Projects</div>
 				<div class="menu-item">Art I like</div>
 				<div class="menu-item">Contact</div>
-				<div class="menu-item">Info About This Website</div>
 			</div>
 		</div>
 
@@ -29,9 +28,6 @@
 				home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home 
 			</div>
 		</div>
-
-		
-		<div id="info">...</div>
 
 		<script type="importmap">
 			{
@@ -42,6 +38,8 @@
 			}
 		</script>
 
+		<script type="module" src="/main.js"></script>
+
 		<script type="module">
 
 			import * as THREE from 'three';
@@ -50,6 +48,7 @@
 			import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js';
 			import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 			import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
 
 			let camera, scene, renderer, effect;
 			let controls;
@@ -61,7 +60,7 @@
 
 			function init() {
 
-				camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.05, 1000);
+				camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03, 1000);
 				//set camera
 				camera.position.set(5.216093159579636e-16, 0.016845125755540615, 0.20722763520716875);
 				camera.lookAt(0, 0, 0);
