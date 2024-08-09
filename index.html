@@ -1,46 +1,46 @@
 <!DOCTYPE html>
-<!--OK SITE IS UP AND WORKING NOW TO ADD MENU-->
 <html lang="en">
-	<head>
-		<title>Kizovani</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="main.css">
-	</head>
+<head>
+    <title>Kizovani</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="main.css">
+</head>
 
-	<body>
-		<div id="menu-container">
-			<div class="col col-1">
-				<div class="menu-item" id="menu-toggle">menu</div>
-			</div>
-			<div class="col col-2">
-				<div class="menu-item" id="close-menu">Close</div>
-				<div class="menu-item">Home</div>
-				<div class="menu-item">Tools</div>
-				<div class="menu-item">Projects</div>
-				<div class="menu-item">Art I like</div>
-				<div class="menu-item">Contact</div>
-			</div>
-		</div>
+<body>
+    <div class="logo">B2C</div>
+    <div class="dummy-img"></div>
+    <div class="dummy-text">brutalism 45 87343 &copy;<br>Codegrid</div>
+    <div class="menu-container">
+        <div class="col col-1">
+            <div class="menu-item" id="menu-toggle">menu</div>
+        </div>
+        <div class="col col-2">
+            <div class="menu-item" id="close-menu">close</div>
+            <div class="menu-item">home</div>
+            <div class="menu-item">projects</div>
+            <div class="menu-item">art i like</div>
+            <div class="menu-item">info</div>
+            <div class="menu-item">contact</div>
+        </div>
+    </div>
 
-		<div class="marquee-container">
-			<div class="marquee">
-				home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home 
-			</div>
-		</div>
+    <div class="marquee-container">
+        <div class="marquee">
+            home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home 
+        </div>
+    </div>
 
-		<script type="importmap">
-			{
-				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/"
-				}
-			}
-		</script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../build/three.module.js",
+                "three/addons/": "./jsm/"
+            }
+        }
+    </script>
 
-		<script type="module" src="/main.js"></script>
-
-		<script type="module">
+    <script type="module">
 
 			import * as THREE from 'three';
 			import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -208,6 +208,8 @@
 				effect.setSize(window.innerWidth, window.innerHeight);
 			}
 		</script>
- 
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
+		<script src="/main.js"></script>
 	</body>
 </html>
