@@ -137,14 +137,36 @@
 
 			function loadModel() {
 				const loader = new GLTFLoader();
+
+                //simple material to use for all meshes instead of bundled materials:
+                const simpleMaterial = new THREE.MeshPhongMaterial({
+        color: 0xcccccc,  // Light gray color
+        flatShading: true  // This gives a more polygon-like appearance
+    });
+
 				loader.load(
 					//full size (full poly count) model:
 					//'models/scene.gltf',
 					// //low poly model (load times a bit better and alot less system intensive, might lower model count more, also please change this file name lmfao):
-					'res/models/lowpoly_textures/test3/test0.2then0.5then0.25.gltf',
+					//'res/models/lowpoly_textures/test3/test0.2then0.5then0.25.gltf',
+                    //model with no "backpack" since the backpack was interfering when I wanted to mesh it with a blank mesh:
+                    'res/models/NEW ANGEL MODEL NO BACKPACK/no backpack.gltf',
 					function(gltf) {
 						console.log('Model loaded successfully');
 						model = gltf.scene;
+
+                        // Set the material for all meshes in the model
+                        model.traverse((child) => {
+                            if (child.isMesh) {
+                                // Remove any texture-related properties
+                                child.material = simpleMaterial.clone();  // Clone to allow for individual adjustments if needed
+                                child.material.map = null;
+                                child.material.normalMap = null;
+                                child.material.specularMap = null;
+                                child.material.alphaMap = null;
+                            }
+                        });
+                        
 						scene.add(model);
 
 						// Center the model
