@@ -1,3 +1,9 @@
+<!-- TODO: REMOVE TOP AND RIGHT SIDE CUTOFF??? -->
+<!-- TODO: CENTER MODEL PLEASE LMFAO -->
+<!-- TODO: ADD LIGHTING SLIDER?? -->
+<!-- TODO: FIGURE OUT PHOTO STORAGE??? -->
+<!-- TODO: ADD TEXT AND EASTER EGG -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,18 +68,29 @@
 
 				camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03, 1000);
 				//set camera
-				camera.position.set(5.216093159579636e-16, 0.016845125755540615, 0.20722763520716875);
+				camera.position.set(5.216093159579636e-16, 0.00, 0.20722763520716875);
 				camera.lookAt(0, 0, 0);
 
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color(0, 0, 0);
 
-				const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-				scene.add(ambientLight);
+                //ligthing incase you need to see everything
+
+				// const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+				// scene.add(ambientLight);
 
 				const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 				directionalLight.position.set(5, 5, 5);
 				scene.add(directionalLight);
+
+                const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.7);
+				directionalLight.position.set(2, 0, 2);
+				scene.add(directionalLight2);
+
+                const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.7);
+				directionalLight.position.set(0, 0, 2);
+				scene.add(directionalLight3);
+
 				
 				    // Create loading text
 					const loader = new FontLoader();
@@ -104,16 +121,16 @@
 						scene.add(loadingText);
 					});
 
-				// // Add helpers
+				// Add helpers
 				// const axesHelper = new THREE.AxesHelper(5);
 				// scene.add(axesHelper);
 
 				// const gridHelper = new THREE.GridHelper(10, 10);
 				// scene.add(gridHelper);
 
+
 				renderer = new THREE.WebGLRenderer();
 				renderer.setSize(window.innerWidth, window.innerHeight);
-
 
 				//ascii effect:
 				effect = new AsciiEffect(renderer, ' .:-+*=%@#', { 
