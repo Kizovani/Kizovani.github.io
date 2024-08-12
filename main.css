@@ -7,7 +7,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   @font-face {
@@ -24,11 +24,13 @@ body {
 }
 
 .menu-container {
+  z-index: 1000;
     position: fixed;
     top: 1rem;
     right: 1rem;
     width: 200px;
     height: 35px;
+    /* changed here */
     overflow: hidden;
   }
   
@@ -60,6 +62,7 @@ body {
   }
   
   .marquee-container {
+    z-index: 1001;
     position: absolute;
     right: 0;
     width: 150px;
