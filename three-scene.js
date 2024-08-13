@@ -15,12 +15,20 @@ let rotatingLight;
 function init() {
 
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03, 1000);
-    //set camera
-    camera.position.set(5.216093159579636e-16, 0.00, 0.20722763520716875);
+    //set camera 5.22 0 20722763520716875
+    //Camera position: 
+    // Object { x: -0.0026036433760515828, y: 0.019226904930842455, z: 0.13303919878904805 }
+
     camera.lookAt(0, 0, 0);
+    camera.position.set(0.00, 0.00, 0.18);
+    
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0, 0, 0);
+
+    window.addEventListener('keydown', logCameraPosition);
+
+
 
     //ligthing incase you need to see everything
 
@@ -119,6 +127,15 @@ function init() {
     window.addEventListener('resize', onWindowResize);
 }
 
+function logCameraPosition(event) {
+    // Log camera position when 'L' key is pressed
+    if (event.key.toLowerCase() === 'l') {
+        console.log('Camera position:', camera.position);
+        console.log('Camera rotation:', camera.rotation);
+        console.log('Controls target:', controls.target);
+    }
+}
+
 function loadModel() {
     const loader = new GLTFLoader();
 
@@ -165,7 +182,7 @@ flatShading: true  // This gives a more polygon-like appearance
             console.log('Model position:', model.position);
             console.log('Model scale:', model.scale);
 
-            model.position.y -=0.09; //moving the model down a bit
+            model.position.y -=0.11; //moving the model down a bit
 
             // Set up animation
             if (gltf.animations && gltf.animations.length > 0) {
