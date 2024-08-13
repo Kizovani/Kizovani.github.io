@@ -10,6 +10,7 @@ let camera, scene, renderer, effect;
 let controls;
 let model, mixer;
 let loadingText;
+let rotatingLight;
 
 function init() {
 
@@ -26,18 +27,36 @@ function init() {
     // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     // scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
+    // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    // directionalLight.position.set(5, 5, 5);
+    // scene.add(directionalLight);
 
-    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.7);
-    directionalLight.position.set(2, 0, 2);
-    scene.add(directionalLight2);
+    // const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.7);
+    // directionalLight.position.set(2, 0, 2);
+    // scene.add(directionalLight2);
 
-    const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.7);
-    directionalLight.position.set(0, 0, 2);
-    scene.add(directionalLight3);
+    // const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.7);
+    // directionalLight.position.set(0, 0, 2);
+    // scene.add(directionalLight3);
 
+    // Add a rotating light
+    rotatingLight = new THREE.DirectionalLight(0xffffff, 1);
+    rotatingLight.position.set(2, 0, 0); // Start position
+    scene.add(rotatingLight);
+
+    // Add ambient light to ensure the scene isn't too dark
+    const ambientLight = new THREE.AmbientLight(0x404040);
+    scene.add(ambientLight);
+    
+    const slider = document.getElementById('light-rotation-slider');
+    slider.addEventListener('input', updateLightPosition);
+
+    function updateLightPosition() {
+        const slider = document.getElementById('light-rotation-slider');
+        const angle = slider.value * (Math.PI / 180);
+        rotatingLight.position.x = Math.cos(angle) * 2;
+        rotatingLight.position.z = Math.sin(angle) * 2;
+    }
     
         // Create loading text
         const loader = new FontLoader();
