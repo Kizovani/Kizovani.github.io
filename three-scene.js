@@ -82,7 +82,8 @@ function init() {
     //ascii effect:
     effect = new AsciiEffect(renderer, ' .:-+*=%@#', { 
         invert: true,
-        resolution: 0.235
+        //I wanted to use 0.235 but for some reason it gets cutoff the right side when I do, no clue why, 0.2 is the highest resolution I can use without getting cutoff at the right side
+        resolution: 0.2
         
     });
     effect.setSize(window.innerWidth, window.innerHeight);
