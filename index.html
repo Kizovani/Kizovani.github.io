@@ -1,5 +1,7 @@
+<!-- TODO: PLEASE GOD FIX THE three-scene.js loading process its so bad atm, and please make the slider pretty -->
 <!-- TODO: MAKE SLIDER LOOK NICE (MINIMAL) AND MAKE IT APPEAR WHEN YOU DRAG YOUR MOUSE TO THE BOTTOM OF THE SCREEN
 TODO: ADD TEXT -->
+<!-- TODO: ADD TOGGLE FOR AMBIENT LIGHT -->
 <!-- TODO: FIGURE OUT PHOTO STORAGE??? -->
 <!-- TODO: ADD EASTER EGG -->
 
@@ -13,8 +15,15 @@ TODO: ADD TEXT -->
 </head>
 
 <body>
-	<div id="three-js-container"></div>
+    <div id="three-js-container"></div>
+
     <input type="range" id="light-rotation-slider" min="0" max="360" value="0">
+
+    <label class="switch">
+        <input type="checkbox" id="ambient-light-switch" checked>
+        <span class="slider"></span>
+    </label>
+
 
     <div class="menu-container">
         <div class="col col-1">
