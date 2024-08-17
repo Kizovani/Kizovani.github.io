@@ -5,59 +5,126 @@ import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
+//waits for three scene to be fully loaded before adding dom elements NOT DONE YET
+
 
 let camera, scene, renderer, effect;
 let controls;
 let model, mixer;
 let loadingText;
 let rotatingLight;
+let ambientLight;
 
-function init() {
-
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03, 1000);
-    //set camera 5.22 0 20722763520716875
-    //Camera position: 
-    // Object { x: -0.0026036433760515828, y: 0.019226904930842455, z: 0.13303919878904805 }
-
-    camera.lookAt(0, 0, 0);
-    camera.position.set(0.00, 0.00, 0.18);
+function initThreeScene() {
     
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03 , 1000)
+    camera.lookAt(0 , 0 , 0);
+    camera.position.set(0 , 0 , 0.18);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0, 0, 0);
+    scene.background = new THREE.Color(0 , 0 , 0);
 
-    window.addEventListener('keydown', logCameraPosition);
-
-
-
-    //ligthing incase you need to see everything
-
-    // const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    // scene.add(ambientLight);
-
-    // const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    // directionalLight.position.set(5, 5, 5);
-    // scene.add(directionalLight);
-
-    // const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.7);
-    // directionalLight.position.set(2, 0, 2);
-    // scene.add(directionalLight2);
-
-    // const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.7);
-    // directionalLight.position.set(0, 0, 2);
-    // scene.add(directionalLight3);
-
-    // Add a rotating light
-    rotatingLight = new THREE.DirectionalLight(0xffffff, 1);
-    rotatingLight.position.set(2, 0, 0); // Start position
+    rotatingLight= new THREE.DirectionalLight(0xffffff , 1);
     scene.add(rotatingLight);
 
-    // Add ambient light to ensure the scene isn't too dark
-    const ambientLight = new THREE.AmbientLight(0x404040);
+    ambientLight= new THREE.AmbientLight(0x404040 , 1);
     scene.add(ambientLight);
+
+    //render and ascii effect
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth , window.innerHeight);
+
+    effect = new AsciiEffect(renderer, ' .:-+*=%@#' , {
+        invert: true,
+        resolution: 0.2
+    });
+
+    effect.setSize(window.innerWidth , window.innerHeight);
+    effect.domElement.style.color = 'white';
+    effect.domElement.style.backgroundColor = 'black';
+
+    //append to container when container is available
+    const container = document.getElementById('three-js-container');
+    if (container) {
+        container.appendChild(effect.domElement);
+    } else {
+        console.warn('three js container not found appending to body instead');
+        document.body.appendChild(effect.domElement);
+    }
+
+    controls = new OrbitControls(camera , effect.domElement);
     
+    window.addEventListener('resize' , onWindowResize);
+
+    // Add helpers (if needed)
+    // const axesHelper = new THREE.AxesHelper(5);
+    // scene.add(axesHelper);
+
+    // const gridHelper = new THREE.GridHelper(10, 10);
+    // scene.add(gridHelper);
+
+    //setup loading text
+    createLoadingText();
+
+    //load loading text and model
+    loadModel();
+
+    //start animation loop
+    animate();
+
+}
+
+function initDOMControls() {
+
     const slider = document.getElementById('light-rotation-slider');
+    updateLightPosition(0);
     slider.addEventListener('input', updateLightPosition);
+
+        // Set up ambient light switch
+        const ambientLightSwitch = document.getElementById('ambient-light-switch');
+        ambientLight.visible = true;
+        if (ambientLightSwitch) {
+            ambientLightSwitch.addEventListener('change', () => {
+                ambientLight.visible = ambientLightSwitch.checked;
+            });
+            // Set initial state
+            ambientLight.visible = ambientLightSwitch.checked;
+        } else {
+            console.warn('Ambient light switch not found');
+        }
+    }
+
+function createLoadingText() {
+    const loader = new FontLoader();
+    loader.load('res/fonts/helvetiker_regular.typeface.json', function(font) {
+        const geometry = new TextGeometry('LOADING', {
+            font: font,
+            size: 0.3,
+            height: 0.1,
+            curveSegments: 12,
+            bevelEnabled: false,
+        });
+        
+        // Center the geometry
+        geometry.computeBoundingBox();
+        const textWidth = geometry.boundingBox.max.x - geometry.boundingBox.min.x;
+        const textHeight = geometry.boundingBox.max.y - geometry.boundingBox.min.y;
+        geometry.translate(-textWidth / 2, -textHeight / 2, 0);
+
+        const material = new THREE.MeshPhongMaterial({color: 0xffffff});
+        loadingText = new THREE.Mesh(geometry, material);
+        
+        // Position the text in front of the camera
+        loadingText.position.set(0, 0, -1);  // Adjust the z value as needed
+        
+        // Make the text face the camera
+        loadingText.lookAt(camera.position);
+        
+        scene.add(loadingText);
+    });
+    
+}
 
     function updateLightPosition() {
         const slider = document.getElementById('light-rotation-slider');
@@ -66,101 +133,15 @@ function init() {
         rotatingLight.position.z = Math.sin(angle) * 2;
     }
 
-    //ADD THE FUCKING AMBIENTR LIGHT TOGGLE FUASDOIAKOLD MaslDmsnJLNDFASKJDNBSDBNAS DaHIKUFaLDFASOJDHNFbg auSSUJIOakpfjuhnybgjajIKOPMJ
-    function setupAmbientLightToggle() {
-        console.log("Setting up ambient light toggle...");
-        const ambientLightSwitch = document.getElementById('ambient-light-switch');
-        
-        if (ambientLightSwitch) {
-            console.log("Ambient light switch found");
-            ambientLightSwitch.addEventListener('change', toggleAmbientLight);
-
-            function toggleAmbientLight() {
-                console.log("Toggling ambient light");
-                ambientLight.visible = ambientLightSwitch.checked;
-            }
-
-            // Initial state setup
-            toggleAmbientLight();
-        } else {
-            console.error('Element with id "ambient-light-switch" not found');
-            console.log("DOM content at this point:", document.body.innerHTML);
-        }
-    }
-
-    // Delay setup slightly to ensure DOM is fully loaded
-    setTimeout(setupAmbientLightToggle, 100);
-
-    
-        // Create loading text
-        const loader = new FontLoader();
-        loader.load('res/fonts/helvetiker_regular.typeface.json', function(font) {
-            const geometry = new TextGeometry('LOADING', {
-                font: font,
-                size: 0.3,
-                height: 0.1,
-                curveSegments: 12,
-                bevelEnabled: false,
-            });
-            
-            // Center the geometry
-            geometry.computeBoundingBox();
-            const textWidth = geometry.boundingBox.max.x - geometry.boundingBox.min.x;
-            const textHeight = geometry.boundingBox.max.y - geometry.boundingBox.min.y;
-            geometry.translate(-textWidth / 2, -textHeight / 2, 0);
-
-            const material = new THREE.MeshPhongMaterial({color: 0xffffff});
-            loadingText = new THREE.Mesh(geometry, material);
-            
-            // Position the text in front of the camera
-            loadingText.position.set(0, 0, -1);  // Adjust the z value as needed
-            
-            // Make the text face the camera
-            loadingText.lookAt(camera.position);
-            
-            scene.add(loadingText);
-        });
-
-    // Add helpers
-    // const axesHelper = new THREE.AxesHelper(5);
-    // scene.add(axesHelper);
-
-    // const gridHelper = new THREE.GridHelper(10, 10);
-    // scene.add(gridHelper);
-
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-
-    //ascii effect:
-    effect = new AsciiEffect(renderer, ' .:-+*=%@#', { 
-        invert: true,
-        //I wanted to use 0.235 but for some reason it gets cutoff the right side when I do, no clue why, 0.2 is the highest resolution I can use without getting cutoff at the right side
-        resolution: 0.2
-        
-    });
-    effect.setSize(window.innerWidth, window.innerHeight);
-    effect.domElement.style.color = 'white';
-    effect.domElement.style.backgroundColor = 'black';
-
-
-    document.getElementById('three-js-container').appendChild(effect.domElement);
-
-    controls = new OrbitControls(camera, effect.domElement);
-
-    loadModel();
-
-    window.addEventListener('resize', onWindowResize);
-}
-
-function logCameraPosition(event) {
-    // Log camera position when 'L' key is pressed
-    if (event.key.toLowerCase() === 'l') {
-        console.log('Camera position:', camera.position);
-        console.log('Camera rotation:', camera.rotation);
-        console.log('Controls target:', controls.target);
-    }
-}
+// //camera position in case needed
+// function logCameraPosition(event) {
+//     // Log camera position when 'L' key is pressed
+//     if (event.key.toLowerCase() === 'l') {
+//         console.log('Camera position:', camera.position);
+//         console.log('Camera rotation:', camera.rotation);
+//         console.log('Controls target:', controls.target);
+//     }
+// }
 
 function loadModel() {
     const loader = new GLTFLoader();
@@ -257,110 +238,7 @@ function onWindowResize() {
     effect.setSize(window.innerWidth, window.innerHeight);
 }
 
-export function initThreeScene() {
-    // Ensure init is called after DOM is loaded
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", init);
-    } else {
-        init();
-    }
-    animate();
-}
-
-//CODE TO BE USED INCASE YOU FUCKING LOSE IT:
-
-// let camera, scene, renderer, effect;
-// let controls;
-// let model, mixer;
-// let loadingText;
-// let rotatingLight;
-// let ambientLight;
-
-// function initThreeScene() {
-//     // Initialize Three.js scene
-//     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03, 1000);
-//     camera.lookAt(0, 0, 0);
-//     camera.position.set(0.00, 0.00, 0.18);
-
-//     scene = new THREE.Scene();
-//     scene.background = new THREE.Color(0, 0, 0);
-
-//     // Add rotating light
-//     rotatingLight = new THREE.DirectionalLight(0xffffff, 1);
-//     rotatingLight.position.set(2, 0, 0);
-//     scene.add(rotatingLight);
-
-//     // Add ambient light
-//     ambientLight = new THREE.AmbientLight(0x404040);
-//     scene.add(ambientLight);
-
-//     // Set up renderer and effects
-//     renderer = new THREE.WebGLRenderer();
-//     renderer.setSize(window.innerWidth, window.innerHeight);
-
-//     effect = new AsciiEffect(renderer, ' .:-+*=%@#', { 
-//         invert: true,
-//         resolution: 0.2
-//     });
-//     effect.setSize(window.innerWidth, window.innerHeight);
-//     effect.domElement.style.color = 'white';
-//     effect.domElement.style.backgroundColor = 'black';
-
-//     // Append to container when it's available
-//     const container = document.getElementById('three-js-container');
-//     if (container) {
-//         container.appendChild(effect.domElement);
-//     } else {
-//         console.warn('Container not found, appending to body');
-//         document.body.appendChild(effect.domElement);
-//     }
-
-//     controls = new OrbitControls(camera, effect.domElement);
-
-//     loadModel();
-//     window.addEventListener('resize', onWindowResize);
-
-//     // Start animation loop
-//     animate();
-// }
-
-// function initDOMControls() {
-//     // Set up light rotation slider
-//     const slider = document.getElementById('light-rotation-slider');
-//     if (slider) {
-//         slider.addEventListener('input', updateLightPosition);
-//     } else {
-//         console.warn('Light rotation slider not found');
-//     }
-
-//     // Set up ambient light switch
-//     const ambientLightSwitch = document.getElementById('ambient-light-switch');
-//     if (ambientLightSwitch) {
-//         ambientLightSwitch.addEventListener('change', () => {
-//             ambientLight.visible = ambientLightSwitch.checked;
-//         });
-//         // Set initial state
-//         ambientLight.visible = ambientLightSwitch.checked;
-//     } else {
-//         console.warn('Ambient light switch not found');
-//     }
-// }
-
-// function updateLightPosition() {
-//     const slider = document.getElementById('light-rotation-slider');
-//     if (slider) {
-//         const angle = slider.value * (Math.PI / 180);
-//         rotatingLight.position.x = Math.cos(angle) * 2;
-//         rotatingLight.position.z = Math.sin(angle) * 2;
-//     }
-// }
-
-// // Other functions (loadModel, animate, onWindowResize) remain the same
-
-// // Main initialization
-// document.addEventListener('DOMContentLoaded', () => {
-//     initThreeScene();
-//     initDOMControls();
-// });
-
-// export { initThreeScene, initDOMControls };
+document.addEventListener('DOMContentLoaded', () => {
+    initThreeScene();
+    initDOMControls();
+});

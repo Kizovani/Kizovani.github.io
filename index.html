@@ -17,14 +17,14 @@ TODO: ADD TEXT -->
 <body>
     <div id="three-js-container"></div>
 
-    <input type="range" id="light-rotation-slider" min="0" max="360" value="0">
-
-    <label class="switch">
-        <input type="checkbox" id="ambient-light-switch" checked>
-        <span class="slider"></span>
-    </label>
-
-
+    <div class="controls-container">
+        <input type="range" id="light-rotation-slider" min="0" max="360" value="0">
+        <label class="switch">
+            <input type="checkbox" id="ambient-light-switch" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+    
     <div class="menu-container">
         <div class="col col-1">
             <div class="menu-item" id="menu-toggle">menu</div>
@@ -54,11 +54,7 @@ TODO: ADD TEXT -->
         }
     </script>
 
-	<script type="module">
-		import {initThreeScene} from './three-scene.js';
-		initThreeScene();
-	</script>
-
+    <script type="module" src="./three-scene.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
         <script type="module" src="/main.js"></script>

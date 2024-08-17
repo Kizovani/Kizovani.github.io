@@ -89,25 +89,30 @@ body {
     z-index: 1;
   } 
 
-  #light-rotation-slider {
-    position: absolute;
+  .controls-container {
+    position: fixed;
     bottom: 20px;
-    left: 0%;
-    transform: translateX(50%);
-    width: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 2000;
+}
+
+  #light-rotation-slider {
     z-index: 2;
     accent-color: var(--accent);
     color: var(--bg);
+    width: 500px;
 }
 
   /* The switch - the box around the slider */
   .switch {
-    position: absolute;
+    position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
-    bottom: 20px;
-    right: 20px;
     z-index: 1000;
 }
 
@@ -152,6 +157,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
+    background-color: var(--accent);
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
