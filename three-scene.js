@@ -202,6 +202,10 @@ flatShading: true  // This gives a more polygon-like appearance
             if (loadingText) {
                 scene.remove(loadingText);
             }
+
+            // dispatch a custom event to trigger the text reveal
+            window.dispatchEvent(new Event('modelLoaded'));
+
         },
         function(xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
@@ -219,7 +223,6 @@ function animate() {
     if (loadingText) {
         loadingText.rotation.y += 0.005;
     }
-    console.log('Camera position:', camera.position);
 
     if (mixer) {
         mixer.update(0.016);

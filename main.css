@@ -90,6 +90,7 @@ body {
   } 
 
   .controls-container {
+    width: 35%;
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -101,10 +102,10 @@ body {
 }
 
   #light-rotation-slider {
-    z-index: 2;
     accent-color: var(--accent);
     color: var(--bg);
-    width: 500px;
+    width: 100%;
+    z-index: 2;
 }
 
   /* The switch - the box around the slider */
@@ -161,4 +162,31 @@ input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
+}
+
+.nametag {
+  font-family: "Arame Mono";
+  color: var(--accent);
+  font-size: 40px;
+  letter-spacing: 12px;
+  font-weight: 600;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50% , -50%);
+  z-index: 3;
+  /* background-color: var(--accent); */
+}
+
+.welcome-text {
+  font-family: "Arame Mono";
+  color: var(--accent);
+  font-size: 20px;
+  letter-spacing: 12px;
+  font-weight: 600;
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  /* transform: translate(-20% , -20%); */
+  z-index: 3;
 }

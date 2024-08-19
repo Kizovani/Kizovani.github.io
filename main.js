@@ -1,3 +1,48 @@
+import baffle from 'baffle';
+
+//text-shuffle
+document.addEventListener('DOMContentLoaded', function() {
+
+  let nametag = baffle('.nametag', {
+
+    characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+    speed: 70,
+  });
+
+  nametag.start();
+
+  //reveal text when model is loaded
+  window.addEventListener('modelLoaded', function() {
+  nametag.reveal(4000);
+  });
+
+
+  let text = baffle('.welcome-text', {
+
+    characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+    speed: 70,
+  })
+
+  text.start();
+
+  window.addEventListener('modelLoaded', function() {
+  text.reveal(2000 , 3000);
+  });
+
+  
+  text.start();
+  b.text(() => "Welcome to my website");
+
+  text.reveal(2000 , 3000);
+
+  
+
+
+});
+
+
+
+//menu bar:
 const tl = gsap.timeline({ paused: true });
 
 function revealMenu() {
@@ -84,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scale: 1,
         left: containerX + 25,
         top: containerY,
-        duration: 1,
+        duration: 0.2,
         ease: "power3.out",
       });
 
@@ -102,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isInsideMenuContainer = false;
     gsap.to(marqueeContainer, {
       scale: 0,
-      duration: 0.5,
+      duration: 0.2,
       ease: "power3.out",
       onComplete: function () {
         marqueeContainer.style.display = "none";
