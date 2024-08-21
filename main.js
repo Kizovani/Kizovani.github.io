@@ -1,6 +1,7 @@
+//TODO: ORGANIZE THIS HOW CLAUDE SUGGESTED PLEASE
 import baffle from 'baffle';
 
-//text-shuffle
+//text handling
 document.addEventListener('DOMContentLoaded', function() {
 
   let nametag = baffle('.nametag', {
@@ -13,36 +14,99 @@ document.addEventListener('DOMContentLoaded', function() {
 
   //reveal text when model is loaded
   window.addEventListener('modelLoaded', function() {
-  nametag.reveal(4000);
+  nametag.reveal(4000, 1700);
   });
 
+  // TODO:
+  // maybe add a text where if they spin him around very rapidly he says something like "im getting dizzy"
+  // and then the second time something like please stop im going to throw up
+  // and then maybe a throw up effect? But like idk if I can make it cooler/different from the konami code?!?!?!?
+  // ideas for how to do above:
+  // log camera coords, if the change in camera coords is too drastic too fast, trigger
+  // or I could detect mouse movement and if when the user is holding and dragging left click too fast it triggers that way, I feel like that could be easier/more reliable, but idk if there
+  //even is a way to detect mouse "velocity"
+  // konami code can just be the baffle effect everywhere and then atr the end its the ultron quote "youve wounded me, full marks for that" (or some fuck shit like that)
+  //maybe incorporate a quote of the day thing, after all the intro messages he says like "Todays quote of the day is:", just worried its going to be too much text for some of the larger quotes
 
-  let text = baffle('.welcome-text', {
+const messages = [
+  { content: "Welcome", duration: 4000 },
+  { content: "move me using your mouse", duration: 3000 },
+  { content: "drag with left and right click for rotation and position", duration: 5000 },
+  { content: "zoom using the scroll wheel", duration: 4000 },
+  { content: "you can also play with my lighting effects..", duration: 5000 },
+  { content: "using the scroll bar for light rotation", duration: 5000 },
+  { content: "and the switch for ambient light", duration: 5000 },
+  { content: "check out the menu for more", duration: 4000 }
+];
+
+
+let currentIndex = 0;
+  let baffleEffect = baffle('.welcome-text', {
 
     characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
     speed: 70,
   })
 
-  text.start();
-
   window.addEventListener('modelLoaded', function() {
-  text.reveal(2000 , 3000);
+    const initialDelay = 4700; //4.7 second delay before anything else happens after model is loaded
+    setTimeout(function(){
+      const welcomeText = document.querySelector('.welcome-text');
+      welcomeText.style.display = 'inline-block';
+      displayNextMessage();
+    }, initialDelay);
   });
 
-  
-  text.start();
-  b.text(() => "Welcome to my website");
+    function displayNextMessage() {
+      if (currentIndex >= messages.length) {
+        handleEndOfMessages();
+        return;
+      }
 
-  text.reveal(2000 , 3000);
+      const currentMessage = messages[currentIndex];
+      baffleEffect.start();
+      baffleEffect.text(() => currentMessage.content).reveal(1500);
 
-  
+      currentIndex++;
 
+      //schedule the next message or end of messages
+
+      setTimeout(() => {
+        if (currentIndex < messages.length) {
+          displayNextMessage();
+        } else {
+          handleEndOfMessages();
+        }
+      }, currentMessage.duration);
+    }
+    
+    //get rid of current message, wait some time, then display joke
+      function handleEndOfMessages() {
+        console.log("all messages displayed")
+
+        const welcomeText = document.querySelector('.welcome-text');
+        const timeToTextDissapear = 4000;
+        const timeToBaffleBeforeDissapear = 3500;
+        setTimeout(() => {
+          baffleEffect.start();
+        }, timeToBaffleBeforeDissapear);
+        setTimeout(() => {
+          welcomeText.style.display = 'none';
+        }, timeToTextDissapear);
+
+        const jokeTimeout = 120000; //2 minute delay before joke
+        setTimeout(() => {
+          baffleEffect.start();
+          welcomeText.style.display = 'inline-block';
+          baffleEffect.text(() => "why are you still here?").reveal(1000);
+        }, jokeTimeout);
+      }
 
 });
 
 
 
 //menu bar:
+//idea basically copied from codegrid "brutalist menu bar" so I have basically no idea how anything below this line works
 const tl = gsap.timeline({ paused: true });
 
 function revealMenu() {
@@ -129,6 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
         scale: 1,
         left: containerX + 25,
         top: containerY,
+        //this is the duration of the "enlarging" animation into the marquee
         duration: 0.2,
         ease: "power3.out",
       });
@@ -147,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
     isInsideMenuContainer = false;
     gsap.to(marqueeContainer, {
       scale: 0,
+      //this is the duration of the "shrinking" animation out of the marquee"
       duration: 0.2,
       ease: "power3.out",
       onComplete: function () {

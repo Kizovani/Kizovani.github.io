@@ -168,8 +168,8 @@ input:checked + .slider:before {
   font-family: "Arame Mono";
   color: var(--accent);
   font-size: 40px;
-  letter-spacing: 12px;
-  font-weight: 600;
+  letter-spacing: 50px;
+  font-weight: 1000;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -178,15 +178,47 @@ input:checked + .slider:before {
   /* background-color: var(--accent); */
 }
 
+.welcome-text-container {
+  
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: 100%;
+  text-align: center;
+}
+
 .welcome-text {
   font-family: "Arame Mono";
   color: var(--accent);
   font-size: 20px;
-  letter-spacing: 12px;
+  letter-spacing: 2px;
   font-weight: 600;
-  position: absolute;
-  top: 20%;
-  left: 20%;
-  /* transform: translate(-20% , -20%); */
+  display: none;
+  /* position: absolute;
+  top: 10%;
+  left: 30%;
+  transform: translate(-20% , -20%); */
   z-index: 3;
+}
+
+#projects-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 100px;
+  z-index: 2;
+}
+
+.project-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  transition: transform 0.3s ease;
+  color: var(--accent);
 }

@@ -1,3 +1,4 @@
+//TODO: CHECK TO MAKE SURE MODEL IS CENTERED?!@?!?!?!?
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -5,7 +6,7 @@ import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
 
-//waits for three scene to be fully loaded before adding dom elements NOT DONE YET
+//waits for three scene to be fully loaded before adding dom elements
 
 
 let camera, scene, renderer, effect;
@@ -19,7 +20,7 @@ function initThreeScene() {
     
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.03 , 1000)
     camera.lookAt(0 , 0 , 0);
-    camera.position.set(0 , 0 , 0.18);
+    camera.position.set(0 , 0 , 0.15);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0 , 0 , 0);
