@@ -3,7 +3,7 @@ import baffle from 'baffle';
 
 //text handling
 document.addEventListener('DOMContentLoaded', function() {
-
+  
   let nametag = baffle('.nametag', {
 
     characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
@@ -11,9 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   nametag.start();
+  //small delay to allow the baffle to happen so you dont see "kizovani" flash before it is baffled
+  setTimeout(() => {
+    const welcomeText = document.querySelector('.nametag');
+    welcomeText.style.display = 'inline-block';
+  }, 50);
 
   //reveal text when model is loaded
   window.addEventListener('modelLoaded', function() {
+    
   nametag.reveal(4000, 1700);
   });
 
