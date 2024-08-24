@@ -21,7 +21,7 @@ function initThreeScene() {
 
     //set up camera, lighting, renderer, and effect
     
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01 , 1000);
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.005 , 1000);
     camera.lookAt(0 , 0 , 0);
     camera.position.set(0 , 0 , 0.15);
 
