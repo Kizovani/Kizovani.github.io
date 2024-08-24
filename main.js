@@ -1,3 +1,14 @@
+// TODO:
+  // maybe add a text where if they spin him around very rapidly he says something like "im getting dizzy"
+  // and then the second time something like please stop im going to throw up
+  // and then maybe a throw up effect? But like idk if I can make it cooler/different from the konami code?!?!?!?
+  // ideas for how to do above:
+  // log camera coords, if the change in camera coords is too drastic too fast, trigger
+  // or I could detect mouse movement and if when the user is holding and dragging left click too fast it triggers that way, I feel like that could be easier/more reliable, but idk if there
+  //even is a way to detect mouse "velocity"
+  // konami code can just be the baffle effect everywhere and then atr the end its the ultron quote "youve wounded me, full marks for that" (or some fuck shit like that)
+  //maybe incorporate a quote of the day thing, after all the intro messages he says like "Todays quote of the day is:", just worried its going to be too much text for some of the larger quotes
+
 // Shared functionality
 import baffle from 'baffle';
 
@@ -225,13 +236,3 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// TODO:
-  // maybe add a text where if they spin him around very rapidly he says something like "im getting dizzy"
-  // and then the second time something like please stop im going to throw up
-  // and then maybe a throw up effect? But like idk if I can make it cooler/different from the konami code?!?!?!?
-  // ideas for how to do above:
-  // log camera coords, if the change in camera coords is too drastic too fast, trigger
-  // or I could detect mouse movement and if when the user is holding and dragging left click too fast it triggers that way, I feel like that could be easier/more reliable, but idk if there
-  //even is a way to detect mouse "velocity"
-  // konami code can just be the baffle effect everywhere and then atr the end its the ultron quote "youve wounded me, full marks for that" (or some fuck shit like that)
-  //maybe incorporate a quote of the day thing, after all the intro messages he says like "Todays quote of the day is:", just worried its going to be too much text for some of the larger quotes

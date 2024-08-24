@@ -271,5 +271,16 @@ input:checked + .slider:before {
 .popup p {
   font-size: 12px;
   color: var(--accent);
-  font-family: monospace;
+  font-family: "Arame Mono";
+  text-decoration: none;
+}
+.project-card .popup a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.project-card .popup a:visited {
+  color: var(--accent); /* This ensures visited links stay the same color */
+}
+.project-card .popup a:hover {
+  text-decoration: underline; /* This adds an underline on hover, you can remove this if you don't want it */
 }
