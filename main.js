@@ -11,6 +11,7 @@
 
 // Shared functionality
 import baffle from 'baffle';
+import { gsap } from 'gsap';
 
 // Menu functionality
 function initMenu() {
@@ -216,6 +217,84 @@ function initHomePage() {
     nametag.reveal(5000, 2000);
   });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Create a circle element
+  const circle = document.createElement('div');
+  circle.id = 'control-toggle';
+  circle.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    cursor: pointer;
+    z-index: 2001;
+  `;
+  document.body.appendChild(circle);
+
+  // Get the controls container
+  const controlsContainer = document.querySelector('.controls-container');
+
+  // Initial animation to move controls out of view
+  gsap.to(controlsContainer, {
+    y: '170%',
+    duration: 0.01,
+    ease: 'power2.inOut'
+  });
+
+  // Variables to track hover state and animation
+  let isHovering = false;
+  let animation;
+
+  // Function to show controls
+  function showControls() {
+    if (animation) animation.kill();
+    animation = gsap.to(controlsContainer, {
+      y: '0%',
+      duration: 0.5,
+      ease: 'power2.out'
+    });
+  }
+
+  // Function to hide controls
+  function hideControls() {
+    if (animation) animation.kill();
+    animation = gsap.to(controlsContainer, {
+      y: '170%',
+      duration: 0.5,
+      ease: 'power2.in'
+    });
+  }
+
+  // Event listeners for circle
+  circle.addEventListener('mouseenter', () => {
+    isHovering = true;
+    showControls();
+  });
+
+  circle.addEventListener('mouseleave', () => {
+    isHovering = false;
+    setTimeout(() => {
+      if (!isHovering) hideControls();
+    }, 300); // Small delay to prevent immediate hiding
+  });
+
+  // Event listeners for controls container
+  controlsContainer.addEventListener('mouseenter', () => {
+    isHovering = true;
+  });
+
+  controlsContainer.addEventListener('mouseleave', () => {
+    isHovering = false;
+    setTimeout(() => {
+      if (!isHovering) hideControls();
+    }, 300);
+  });
+});
+
 
 // Projects page
 function initProjectsPage() {

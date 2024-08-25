@@ -108,7 +108,18 @@ body {
     align-items: center;
     gap: 20px;
     z-index: 2000;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }
+  #controls-toggle {
+    transition: backround-color 0.3s ease;
+  }
+
+  #controls-toggle:hover {
+    background-color: var(--bg);
+    border: 2px solid var(--accent);
+  }
 
   #light-rotation-slider {
     accent-color: var(--accent);
