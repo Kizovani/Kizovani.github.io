@@ -226,8 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
     position: fixed;
     bottom: 20px;
     left: 20px;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: var(--accent);
     cursor: pointer;
@@ -240,8 +240,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initial animation to move controls out of view
   gsap.to(controlsContainer, {
-    y: '170%',
-    duration: 0.01,
+    y: '155%',
+    duration: 0.5,
     ease: 'power2.inOut'
   });
 
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function hideControls() {
     if (animation) animation.kill();
     animation = gsap.to(controlsContainer, {
-      y: '170%',
+      y: '100%',
       duration: 0.5,
       ease: 'power2.in'
     });
