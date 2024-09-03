@@ -23,18 +23,15 @@
 
     <div id="three-js-container"></div>
 
-    <div class="controls-container">
-        <input type="range" id="light-rotation-slider" min="0" max="360" value="0">
-
-        <!-- code that I found from yt for a better toggle button -->
-        <!-- <input type="checkbox" class="toggle" id="ambient-light-switch" checked/>
-        <label for="default" data-checked="ON" data-unchecked="OFF"></label> -->
-
-        <label class="switch">
-            <input type="checkbox" id="ambient-light-switch" checked>
-            <span class="slider"></span>
-        </label>
-    </div>
+    <div id="open-circle" class="circle"></div>
+<div id="controls-container">
+    <div id="close-circle" class="circle"></div>
+    <input type="range" id="light-rotation-slider" min="0" max="100" value="50">
+    <label class="switch">
+        <input type="checkbox" id="ambient-light-toggle">
+        <span class="slider"></span>
+    </label>
+</div>
 
     <div class="menu-container">
         <div class="col col-1">

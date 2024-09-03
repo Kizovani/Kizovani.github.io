@@ -98,28 +98,55 @@ body {
     z-index: 1;
   } 
 
-  .controls-container {
-    width: 35%;
+  #controls-container {
     position: fixed;
-    bottom: 20px;
+    width: 50%;
+    height: 15%;
+    bottom: -5%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(100%);
     display: flex;
     align-items: center;
     gap: 20px;
-    z-index: 2000;
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    z-index: 2000;
 }
-  #controls-toggle {
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: turquoise; /*for testing until I figure everything out*/
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+#open-circle{
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 2001;
+}
+#close-circle {
+  position: absolute;
+  top: 0%;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--accent);
+  border: 2px solid var(--bg);
+}
+  /* #controls-toggle {
     transition: backround-color 0.3s ease;
   }
 
   #controls-toggle:hover {
     background-color: var(--bg);
     border: 2px solid var(--accent);
-  }
+  } */
 
   #light-rotation-slider {
     accent-color: var(--accent);

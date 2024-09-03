@@ -87,7 +87,7 @@ function initDOMControls() {
     slider.addEventListener('input', updateLightPosition);
 
         // Set up ambient light switch
-        const ambientLightSwitch = document.getElementById('ambient-light-switch');
+        const ambientLightSwitch = document.getElementById('ambient-light-toggle');
         ambientLight.visible = true;
         if (ambientLightSwitch) {
             ambientLightSwitch.addEventListener('change', () => {

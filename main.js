@@ -218,82 +218,138 @@ function initHomePage() {
   });
 }
 
+//new reveal
 document.addEventListener('DOMContentLoaded', function() {
-  // Create a circle element
-  const circle = document.createElement('div');
-  circle.id = 'control-toggle';
-  circle.style.cssText = `
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--accent);
-    cursor: pointer;
-    z-index: 2001;
-  `;
-  document.body.appendChild(circle);
+  const openCircle = document.getElementById('open-circle');
+  const closeCircle = document.getElementById('close-circle');
+  const controlsContainer = document.getElementById('controls-container');
 
-  // Get the controls container
-  const controlsContainer = document.querySelector('.controls-container');
+  // Initial state: hide controls container
+  gsap.set(controlsContainer, { y: '100%' });
 
-  // Initial animation to move controls out of view
-  gsap.to(controlsContainer, {
-    y: '155%',
-    duration: 0.5,
-    ease: 'power2.inOut'
-  });
-
-  // Variables to track hover state and animation
-  let isHovering = false;
-  let animation;
-
-  // Function to show controls
-  function showControls() {
-    if (animation) animation.kill();
-    animation = gsap.to(controlsContainer, {
-      y: '0%',
-      duration: 0.5,
+  openCircle.addEventListener('click', () => {
+    gsap.to(openCircle, { 
+      y: 100, 
+      opacity: 0, 
+      duration: 0.5, 
+      onComplete: () => {
+        openCircle.style.display = 'none';
+      }
+    });
+    gsap.to(controlsContainer, { 
+      y: '0%', 
+      duration: 0.5, 
       ease: 'power2.out'
     });
-  }
+  });
 
-  // Function to hide controls
-  function hideControls() {
-    if (animation) animation.kill();
-    animation = gsap.to(controlsContainer, {
-      y: '100%',
-      duration: 0.5,
-      ease: 'power2.in'
+  closeCircle.addEventListener('click', () => {
+    gsap.to(controlsContainer, { 
+      y: '100%', 
+      duration: 0.5, 
+      ease: 'power2.in',
+      onComplete: () => {
+        openCircle.style.display = 'block';
+        gsap.to(openCircle, { y: 0, opacity: 1, duration: 0.5 });
+      }
     });
-  }
-
-  // Event listeners for circle
-  circle.addEventListener('mouseenter', () => {
-    isHovering = true;
-    showControls();
   });
 
-  circle.addEventListener('mouseleave', () => {
-    isHovering = false;
-    setTimeout(() => {
-      if (!isHovering) hideControls();
-    }, 300); // Small delay to prevent immediate hiding
+  // Hover effect for circles
+  [openCircle, closeCircle].forEach(circle => {
+    circle.addEventListener('mouseenter', () => {
+      gsap.to(circle, { scale: 1.1, duration: 0.3 });
+    });
+    circle.addEventListener('mouseleave', () => {
+      gsap.to(circle, { scale: 1, duration: 0.3 });
+    });
   });
 
-  // Event listeners for controls container
-  controlsContainer.addEventListener('mouseenter', () => {
-    isHovering = true;
-  });
-
-  controlsContainer.addEventListener('mouseleave', () => {
-    isHovering = false;
-    setTimeout(() => {
-      if (!isHovering) hideControls();
-    }, 300);
-  });
+  // Debug: Log elements to ensure they're found
+  console.log('Open Circle:', openCircle);
+  console.log('Close Circle:', closeCircle);
+  console.log('Controls Container:', controlsContainer);
 });
+
+
+// //im pretty sure this is reveal functionality:
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   // Create a circle element
+//   const circle = document.createElement('div');
+//   circle.id = 'control-toggle';
+//   circle.style.cssText = `
+//     position: fixed;
+//     bottom: 20px;
+//     left: 20px;
+//     width: 40px;
+//     height: 40px;
+//     border-radius: 50%;
+//     background-color: var(--accent);
+//     cursor: pointer;
+//     z-index: 2001;
+//   `;
+//   document.body.appendChild(circle);
+
+//   // Get the controls container
+//   const controlsContainer = document.querySelector('.controls-container');
+
+//   // Initial animation to move controls out of view
+//   gsap.to(controlsContainer, {
+//     y: '155%',
+//     duration: 0.5,
+//     ease: 'power2.inOut'
+//   });
+
+//   // Variables to track hover state and animation
+//   let isHovering = false;
+//   let animation;
+
+//   // Function to show controls
+//   function showControls() {
+//     if (animation) animation.kill();
+//     animation = gsap.to(controlsContainer, {
+//       y: '0%',
+//       duration: 0.5,
+//       ease: 'power2.out'
+//     });
+//   }
+
+//   // Function to hide controls
+//   function hideControls() {
+//     if (animation) animation.kill();
+//     animation = gsap.to(controlsContainer, {
+//       y: '100%',
+//       duration: 0.5,
+//       ease: 'power2.in'
+//     });
+//   }
+
+//   // Event listeners for circle
+//   circle.addEventListener('mouseenter', () => {
+//     isHovering = true;
+//     showControls();
+//   });
+
+//   circle.addEventListener('mouseleave', () => {
+//     isHovering = false;
+//     setTimeout(() => {
+//       if (!isHovering) hideControls();
+//     }, 300); // Small delay to prevent immediate hiding
+//   });
+
+//   // Event listeners for controls container
+//   controlsContainer.addEventListener('mouseenter', () => {
+//     isHovering = true;
+//   });
+
+//   controlsContainer.addEventListener('mouseleave', () => {
+//     isHovering = false;
+//     setTimeout(() => {
+//       if (!isHovering) hideControls();
+//     }, 300);
+//   });
+// });
 
 
 // Projects page
