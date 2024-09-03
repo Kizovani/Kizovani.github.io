@@ -211,7 +211,7 @@ function initHomePage() {
   setTimeout(() => {
     const welcomeText = document.querySelector('.nametag');
     welcomeText.style.display = 'inline-block';
-  }, 50);
+  }, 60);
 
   window.addEventListener('modelLoaded', function() {
     nametag.reveal(5000, 2000);
