@@ -26,12 +26,12 @@
     <div id="open-circle" class="circle"></div>
 <div id="controls-container">
     <div id="close-circle" class="circle"></div>
-    <input type="range" id="light-rotation-slider" min="0" max="100" value="50">
+    <input type="range" id="light-rotation-slider" min="0" max="360" value="0">
     <div class="button-container">
-        <input id="toggle-on" class="toggle toggle-left" name="toggle" value="false" type="radio" checked>
-        <label for="toggle-on" class="btn">On</label>
-        <input id="toggle-off" class="toggle toggle-right" name="toggle" value="true" type="radio">
-        <label for="toggle-off" class="btn">Off</label>
+        <input type="radio" id="ambient-light-off" name="ambient-light" value="off" class="toggle toggle-left" checked>
+        <label for="ambient-light-off" class="btn">Off</label>
+        <input type="radio" id="ambient-light-on" name="ambient-light" value="on" class="toggle toggle-right">
+        <label for="ambient-light-on" class="btn">On</label>
     </div>
     <!-- old switch -->
     <!-- <label class="switch">

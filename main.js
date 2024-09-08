@@ -258,10 +258,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Hover effect for circles
   [openCircle, closeCircle].forEach(circle => {
     circle.addEventListener('mouseenter', () => {
-      gsap.to(circle, { scale: 1.1, duration: 0.3 });
+      gsap.to(circle, { scale: 1.25, duration: 0.2 });
     });
     circle.addEventListener('mouseleave', () => {
-      gsap.to(circle, { scale: 1, duration: 0.3 });
+      gsap.to(circle, { scale: 1, duration: 0.2 });
     });
   });
 

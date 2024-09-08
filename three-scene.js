@@ -86,18 +86,28 @@ function initDOMControls() {
     updateLightPosition(0);
     slider.addEventListener('input', updateLightPosition);
 
-        // Set up ambient light switch
-        const ambientLightSwitch = document.getElementById('ambient-light-toggle');
-        ambientLight.visible = true;
-        if (ambientLightSwitch) {
-            ambientLightSwitch.addEventListener('change', () => {
-                ambientLight.visible = ambientLightSwitch.checked;
-            });
-            // Set initial state
-            ambientLight.visible = ambientLightSwitch.checked;
-        } else {
-            console.warn('Ambient light switch not found');
-        }
+    // Set up ambient light switch
+    const ambientLightOff = document.getElementById('ambient-light-off');
+    const ambientLightOn = document.getElementById('ambient-light-on');
+
+    if (ambientLightOff && ambientLightOn) {
+        ambientLightOff.addEventListener('change', () => {
+            if (ambientLightOff.checked) {
+                ambientLight.visible = false;
+            }
+        });
+        
+        ambientLightOn.addEventListener('change', () => {
+            if (ambientLightOn.checked) {
+                ambientLight.visible = true;
+            }
+        });
+        
+        // Set initial state
+        ambientLight.visible = ambientLightOn.checked;
+    } else {
+        console.warn('Ambient light switch not found');
+    }
     }
 
 function createLoadingText() {
