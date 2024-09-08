@@ -330,6 +330,7 @@ function loadModelBasic() {
     );
 }
 
+//what is this
 function adjustModelMaterials() {
     model.traverse((child) => {
         if (child.isMesh) {
