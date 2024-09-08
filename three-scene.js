@@ -87,18 +87,33 @@ function initDOMControls() {
     slider.addEventListener('input', updateLightPosition);
 
         // Set up ambient light switch
-        const ambientLightSwitch = document.getElementById('ambient-light-toggle');
-        ambientLight.visible = true;
-        if (ambientLightSwitch) {
-            ambientLightSwitch.addEventListener('change', () => {
-                ambientLight.visible = ambientLightSwitch.checked;
-            });
-            // Set initial state
-            ambientLight.visible = ambientLightSwitch.checked;
-        } else {
-            console.warn('Ambient light switch not found');
+            const ambientLightToggleOn = document.getElementById('ambient-light-on');
+            const ambientLightToggleOff = document.getElementById('ambient-light-off');
+        
+            if (ambientLightToggleOn && ambientLightToggleOff) {
+                console.log('Ambient light toggle buttons found');
+        
+                // Set initial state
+                ambientLight.visible = ambientLightToggleOn.checked;
+        
+                // Add event listeners to both radio buttons
+                ambientLightToggleOn.addEventListener('change', () => {
+                    if (ambientLightToggleOn.checked) {
+                        ambientLight.visible = true;
+                        console.log('Ambient light turned on');
+                    }
+                });
+        
+                ambientLightToggleOff.addEventListener('change', () => {
+                    if (ambientLightToggleOff.checked) {
+                        ambientLight.visible = false;
+                        console.log('Ambient light turned off');
+                    }
+                });
+            } else {
+                console.warn('Ambient light toggle buttons not found. IDs used: "ambient-light-on" and "ambient-light-off"');
+            }
         }
-    }
 
 function createLoadingText() {
     const loader = new FontLoader();
@@ -320,6 +335,7 @@ function loadModelBasic() {
     );
 }
 
+//what is this
 function adjustModelMaterials() {
     model.traverse((child) => {
         if (child.isMesh) {
