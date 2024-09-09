@@ -358,6 +358,13 @@ function initProjectsPage() {
   console.log("Projects page initialized");
 }
 
+// Info page
+function initInfoPage() {
+  // Add any info page specific functionality here
+  //add baffle effect for wall of text here
+  console.log("Info page initialized");
+}
+
 // Main initialization
 document.addEventListener('DOMContentLoaded', function() {
   initMenu();
