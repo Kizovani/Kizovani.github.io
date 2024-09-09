@@ -362,8 +362,9 @@ function initProjectsPage() {
 document.addEventListener('DOMContentLoaded', function() {
   initMenu();
   initMarquee();
+  //anything else you want to load regardless of what page you are on
 
-  // Determine which page we're on and initialize accordingly
+  // Determine which page we're on and initialize accordingly ( I can probably do this a better way but this works for now lol)
   if (document.querySelector('.nametag')) {
     initHomePage();
   } else if (document.getElementById('projects-container')) {
