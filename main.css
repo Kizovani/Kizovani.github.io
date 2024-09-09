@@ -110,7 +110,7 @@ body {
   #controls-container {
     position: fixed;
     width: 70%;
-    height: 22%;
+    height: 20%;
     bottom: 0%;
     left: 50%;
     transform: translateX(-50%) translateY(100%);
@@ -256,7 +256,7 @@ input[type="radio"].toggle:checked + label:after {
 } */
 
 /* The slider */
-.slider {
+/* .slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -286,7 +286,7 @@ input[type="radio"].toggle:checked + label:after {
 input:checked + .slider {
     background-color: var(--bg);
     border-color: var(--accent);
-}
+} */
 
 input:checked + .slider:before {
     background-color: var(--accent);
@@ -422,6 +422,7 @@ input[type="range"] {
     width: 100%;
     cursor: pointer;
     border-radius: 0; /* iOS */
+    bottom: -5%;
 }
 
 ::-webkit-slider-runnable-track {
