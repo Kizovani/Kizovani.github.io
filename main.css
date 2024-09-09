@@ -172,6 +172,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
+  
 }
 
 .btn {
@@ -184,6 +185,8 @@ body {
   font-size: 14px;
   width: 100%;
   height: 100%;
+  top: 10px; /*please center these better this will work and make the illusion that its centered for now*/
+  
 }
 
 input[type="radio"].toggle {
