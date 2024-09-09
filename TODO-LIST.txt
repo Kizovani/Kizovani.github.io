@@ -1,9 +1,8 @@
 HOME PAGE:
 
-1. make the hover to reveal thing on the main menu look nice please,
-IDEAS:
-make the dot smaller and make it grow on hover? and then click to reveal? And then click another dot to hide it again?
-old small dot hover idea?
+PLEASE CENTER THE FUCKING CONTROLS MENU PLESE PLEASE PLEASE!!!
+1.maybe add more controls for the animation? Like create a simple camera controller that circles around the character or something, and a play pause button for both the camera animation
+and the actual character animation, also maybe a speed slider for the animation?
 
 2. 
 // CODE HERE TO DETECT BROWSER: You can add message like I can see you are on [Browser Here] , 

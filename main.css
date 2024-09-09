@@ -1,6 +1,6 @@
 :root {
-    --accent: #ffffff;
-    --bg: #000000;
+    --white: #ffffff;
+    --black: #000000;
   }
   
   * {
@@ -23,7 +23,7 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  background-color: var(--bg);
+  background-color: var(--black);
   font-family: "Arame Mono";
   display: flex;
   justify-content: center;
@@ -57,8 +57,8 @@ body {
   }
   
   .menu-container .col .menu-item {
-    background: var(--accent);
-    color: var(--bg);
+    background: var(--white);
+    color: var(--black);
     text-decoration: none;
     margin: 0.075rem;
     padding: 0.075rem;
@@ -84,9 +84,9 @@ body {
     right: 0;
     width: 150px;
     padding: 0.5rem;
-    background-color: var(--bg);
-    color: var(--accent);
-    border: 2px solid var(--accent);
+    background-color: var(--black);
+    color: var(--white);
+    border: 2px solid var(--white);
     pointer-events: none;
     display: none;
     transform: scale(0);
@@ -123,7 +123,7 @@ body {
     z-index: 2000;
 }
 .circle {
-  background-color: var(--accent);
+  background-color: var(--white);
   border-radius: 50%;
   
   position: absolute;
@@ -146,8 +146,8 @@ body {
   right: 10px;
   width: 30px;
   height: 30px;
-  background-color: var(--accent);
-  border: 2px solid var(--bg);
+  background-color: var(--white);
+  border: 2px solid var(--black);
 }
   /* #controls-toggle {
     transition: backround-color 0.3s ease;
@@ -289,7 +289,7 @@ input:checked + .slider {
 } */
 
 input:checked + .slider:before {
-    background-color: var(--accent);
+    background-color: var(--white);
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
     transform: translateX(26px);
@@ -297,7 +297,7 @@ input:checked + .slider:before {
 
 .nametag {
   font-family: "Arame Mono";
-  color: var(--accent);
+  color: var(--white);
   font-size: 40px;
   letter-spacing: 50px;
   font-weight: 1000;
@@ -322,7 +322,7 @@ input:checked + .slider:before {
 
 .welcome-text {
   font-family: "Arame Mono";
-  color: var(--accent);
+  color: var(--white);
   font-size: 20px;
   letter-spacing: 2px;
   font-weight: 600;
@@ -344,7 +344,7 @@ input:checked + .slider:before {
   position: relative;
   width: 300px;
   height: 200px;
-  background-color: var(--accent);
+  background-color: var(--white);
   /* border-radius: 8px; */
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   overflow: hidden;
@@ -364,22 +364,22 @@ input:checked + .slider:before {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 8px;
-  color: var(--bg);
+  color: var(--black);
   margin-left: 0.5vh;
 }
 .project-card p {
   font-size: 16px;
   letter-spacing: 1px;
   margin-left: 0.5vh;
-  color: var(--bg);
+  color: var(--black);
 }
 .popup {
   position: absolute;
   left: 0;
   width: 100%;
   height: 55px;
-  background-color: var(--bg);
-  color: var(--accent);
+  background-color: var(--black);
+  color: var(--white);
   padding: 16px;
   transition: bottom 0.3s ease-in-out;
   bottom: -80px;
@@ -389,14 +389,14 @@ input:checked + .slider:before {
 }
 .popup p {
   font-size: 12px;
-  color: var(--accent);
+  color: var(--white);
   font-family: "Arame Mono";
 }
 .project-card .popup a {
-  color: var(--accent);
+  color: var(--white);
 }
 .project-card .popup a:visited {
-  color: var(--accent); /* This ensures visited links stay the same color */
+  color: var(--white); /* This ensures visited links stay the same color */
 }
 .github-link {
   display: flex;
@@ -427,8 +427,8 @@ input[type="range"] {
 }
 
 ::-webkit-slider-runnable-track {
-    background: var(--bg);
-    border: 3px solid var(--accent);
+    background: var(--black);
+    border: 3px solid var(--white);
 }
 
 /*
@@ -440,24 +440,24 @@ input[type="range"] {
     -webkit-appearance: none;
     width: 20px; /* 1 */
     height: 40px;
-    background: var(--accent);
-    box-shadow: -800px 0 0 800px var(--accent); /* 2 */
-    border: 3px solid var(--bg); /* 1 */
+    background: var(--white);
+    box-shadow: -800px 0 0 800px var(--white); /* 2 */
+    border: 3px solid var(--black); /* 1 */
 }
 
 ::-moz-range-track {
     height: 40px;
-    background: var(--bg);
-    border: 3px solid var(--accent);
+    background: var(--black);
+    border: 3px solid var(--white);
 }
 
 ::-moz-range-thumb {
     background: #fff;
     height: 45px;
     width: 20px; /* 1 */
-    border: 3px solid var(--bg); /* 1 */
+    border: 3px solid var(--black); /* 1 */
     border-radius: 0 !important;
-    box-shadow: -800px 0 0 800px var(--accent);
+    box-shadow: -800px 0 0 800px var(--white);
     box-sizing: border-box;
 }
 
@@ -501,4 +501,8 @@ input[type="range"] {
   padding-left: 0.5%;
   padding-top: 3%;
   transform: scale(120%);
+}
+
+.info-text-wall-container {
+  color: var(--white);
 }
