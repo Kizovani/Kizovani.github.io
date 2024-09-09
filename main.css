@@ -412,6 +412,7 @@ input:checked + .slider:before {
   text-decoration: underline;
 }
 
+/*range slider styling*/
 input[type="range"] { 
     margin: auto;
     -webkit-appearance: none;
@@ -424,7 +425,8 @@ input[type="range"] {
 }
 
 ::-webkit-slider-runnable-track {
-    background: var(--accent);
+    background: var(--bg);
+    border: 3px solid var(--accent);
 }
 
 /*
@@ -436,9 +438,9 @@ input[type="range"] {
     -webkit-appearance: none;
     width: 20px; /* 1 */
     height: 40px;
-    background: #fff;
-    box-shadow: -200px 0 0 200px dodgerblue; /* 2 */
-    border: 2px solid #999; /* 1 */
+    background: var(--accent);
+    box-shadow: -800px 0 0 800px var(--accent); /* 2 */
+    border: 3px solid var(--bg); /* 1 */
 }
 
 ::-moz-range-track {
