@@ -7,6 +7,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         projects: resolve(__dirname, 'projects.html'),
+        info: resolve(__dirname, 'info.html')
         // Add more pages as needed
       },
     },
