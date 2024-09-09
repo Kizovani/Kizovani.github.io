@@ -357,7 +357,7 @@ input:checked + .slider:before {
 .project-card img {
   width: 48px;
   height: 48px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   object-fit: contain;
 }
 .project-card h2 {
@@ -365,11 +365,12 @@ input:checked + .slider:before {
   font-weight: bold;
   margin-bottom: 8px;
   color: var(--bg);
+  margin-left: 0.5vh;
 }
 .project-card p {
   font-size: 16px;
   letter-spacing: 1px;
-  margin-left: 1vh;
+  margin-left: 0.5vh;
   color: var(--bg);
 }
 .popup {
@@ -489,4 +490,15 @@ input[type="range"] {
 
 ::-ms-tooltip { 
     display: none;
+}
+
+.cryptwolf-icon {
+  padding-left: 0.5%;
+  padding-top: 2%;
+  transform: scale(170%);
+}
+.traypanda-icon {
+  padding-left: 0.5%;
+  padding-top: 3%;
+  transform: scale(120%);
 }
