@@ -147,6 +147,7 @@ function initHomePage() {
 
   let currentIndex = 0;
   let baffleEffect = baffle('.welcome-text', {
+
     characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
     speed: 70,
   });
@@ -175,6 +176,7 @@ function initHomePage() {
   function handleEndOfMessages() {
     console.log("all messages displayed");
 
+    //make it so the text animates on the way out of existance
     const welcomeText = document.querySelector('.welcome-text');
     const timeToTextDissapear = 4000;
     const timeToBaffleBeforeDissapear = 3500;
@@ -203,6 +205,7 @@ function initHomePage() {
   });
 
   let nametag = baffle('.nametag', {
+
     characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
     speed: 70,
   });
@@ -360,8 +363,20 @@ function initProjectsPage() {
 
 // Info page
 function initInfoPage() {
-  // Add any info page specific functionality here
-  //add baffle effect for wall of text here
+
+  //TODO: for some reason baffling the text breaks all links in it,
+  //to get around this I think i need to baffle all the text first, and then inject the links directly again into the html
+ 
+  const elements = document.querySelectorAll('.info-text-wall-container h1, .info-text-wall-container p, .info-text-wall-container li');
+  
+  const textWall = baffle(elements, {
+    characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+    speed: 70,
+  });
+
+  textWall.start();
+  textWall.reveal(2000, 500);
+
   console.log("Info page initialized");
 }
 
@@ -376,6 +391,10 @@ document.addEventListener('DOMContentLoaded', function() {
     initHomePage();
   } else if (document.getElementById('projects-container')) {
     initProjectsPage();
+  } else if (document.getElementById('info-text-wall-container')) {
+    initInfoPage();
+  } else {
+    console.log("No specific page found");
   }
 });
 
