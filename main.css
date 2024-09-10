@@ -508,4 +508,11 @@ input[type="range"] {
 
 .info-text-wall-container {
   color: var(--white);
+  margin: 300px;
 }
+
+.info-text-wall-container h2 {
+margin-bottom: 15px;
+margin-top: 15px;
+}
+
