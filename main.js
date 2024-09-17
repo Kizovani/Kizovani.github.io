@@ -361,21 +361,43 @@ function initProjectsPage() {
   console.log("Projects page initialized");
 }
 
-// Info page
 function initInfoPage() {
+  const container = document.querySelector('.info-text-wall-container');
+  let originalContent = '';
 
-  //TODO: for some reason baffling the text breaks all links in it,
-  //to get around this I think i need to baffle all the text first, and then inject the links directly again into the html
- 
-  const elements = document.querySelectorAll('.info-text-wall-container h1, .info-text-wall-container p, .info-text-wall-container li');
-  
-  const textWall = baffle(elements, {
-    characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
-    speed: 70,
-  });
+  function storeOriginalContent() {
+    if (container) {
+      originalContent = container.innerHTML;
+    }
+  }
 
-  textWall.start();
-  textWall.reveal(2000, 500);
+  function applyBaffleAndRestore(duration = 2000, delay = 500) {
+    if (!container) return;
+
+    // Store original content
+    storeOriginalContent();
+
+    // Select elements for baffle effect
+    const elements = container.querySelectorAll('h1, p, li');
+
+    // Apply baffle effect
+    const textWall = baffle(elements, {
+
+      characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+      speed: 70,
+    });
+
+    textWall.start();
+    textWall.reveal(duration, delay);
+
+    // After the effect, restore the original content
+    setTimeout(() => {
+      container.innerHTML = originalContent;
+    }, duration + delay + 250); // Add extra time to ensure effect is complete
+  }
+
+  // Run the effect
+  applyBaffleAndRestore(2000, 500);
 
   console.log("Info page initialized");
 }
