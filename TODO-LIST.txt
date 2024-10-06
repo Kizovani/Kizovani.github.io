@@ -33,3 +33,38 @@ function detectBrowser() {
 }
 
 console.log("Browser: " + detectBrowser());
+
+
+//CODE TO REINSTERT LINKS
+
+// Store the original links before baffling
+const originalLinks = {};
+
+// Function to store original links
+function storeOriginalLinks() {
+    document.querySelectorAll('a').forEach((link, index) => {
+        originalLinks[index] = {
+            href: link.href,
+            text: link.textContent
+        };
+    });
+}
+
+// Function to restore links after baffling
+function restoreLinks() {
+    document.querySelectorAll('a').forEach((link, index) => {
+        if (originalLinks[index]) {
+            link.href = originalLinks[index].href;
+            link.textContent = originalLinks[index].text;
+        }
+    });
+}
+
+// Call this before initializing baffle
+storeOriginalLinks();
+
+// Initialize baffle (your existing baffle code here)
+// ...
+
+// Call this after baffle has finished
+restoreLinks();
