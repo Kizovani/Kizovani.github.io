@@ -170,21 +170,6 @@ body {
   background-color: var(--white);
   border: 2px solid var(--black);
 }
-  /* #controls-toggle {
-    transition: backround-color 0.3s ease;
-  }
-
-  #controls-toggle:hover {
-    background-color: var(--bg);
-    border: 2px solid var(--accent);
-  } */
-
-  /* #light-rotation-slider {
-    accent-color: var(--accent);
-    color: var(--bg);
-    width: 100%;
-    z-index: 2;
-} */
 
 .button-container {
   height: 65px;
@@ -264,53 +249,6 @@ input[type="radio"].toggle:checked + label {
 input[type="radio"].toggle:checked + label:after {
   left: 0;
 }
-  /* old swith */
-  /* .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-    z-index: 1000;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-} */
-
-/* The slider */
-/* .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--accent);
-    -webkit-transition: .4s;
-    transition: .4s;
-    border: 2px solid #ffffff;
-    box-sizing: border-box;
-    
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 2px;
-    bottom: 2px;
-    background-color: var(--bg);
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-
-input:checked + .slider {
-    background-color: var(--bg);
-    border-color: var(--accent);
-} */
 
 input:checked + .slider:before {
     background-color: var(--white);
