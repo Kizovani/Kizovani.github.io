@@ -362,6 +362,7 @@ function initProjectsPage() {
 }
 
 function initInfoPage() {
+  //for some reason, baffle screwes up the text wall (links and stuff), so I have to store the original content and then restore it after the baffle effect
   const container = document.querySelector('.info-text-wall-container');
   let originalContent = '';
 
