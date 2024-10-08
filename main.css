@@ -142,6 +142,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     z-index: 2000;
+    justify-content: center;
 }
 .circle {
   background-color: var(--white);
@@ -178,7 +179,6 @@ body {
   justify-content: center;
   align-items: center;
   padding: 10px;
-  
 }
 
 .btn {
@@ -191,8 +191,7 @@ body {
   font-size: 14px;
   width: 100%;
   height: 100%;
-  top: 10px; /*please center these better this will work and make the illusion that its centered for now*/
-  
+  /* top: 10px; please center these better this will work and make the illusion that its centered for now */
 }
 
 input[type="radio"].toggle {
@@ -202,7 +201,7 @@ input[type="radio"].toggle {
 input[type="radio"].toggle + label {
   cursor: pointer;
   min-width: 30px;
-  min-height: 30px;
+  min-height: 30px  ;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -385,7 +384,7 @@ input[type="range"] {
     width: 100%;
     cursor: pointer;
     border-radius: 0; /* iOS */
-    bottom: -5%;
+    bottom: 0;
 }
 
 ::-webkit-slider-runnable-track {
