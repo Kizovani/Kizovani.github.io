@@ -19,6 +19,26 @@
     src: url("/res/fonts/ArameMono.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Hack-Regular";
+  src: url(/res/fonts/Hack-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Bolditalic";
+src: url(/res/fonts/Hack-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Italic";
+  src: url(/res/fonts/Hack-Italic.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Bold";
+  src: url(/res/fonts/Hack-Bold.ttf);
+}
+
 html,
 body {
   width: 100vw;
@@ -508,6 +528,7 @@ input[type="range"] {
 }
 
 .info-text-wall-container {
+  font-family: "Hack-Regular";
   height: 100%;
   overflow-y: scroll;
   scrollbar-width: none;
