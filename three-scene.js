@@ -1,14 +1,13 @@
 //TODO: CHECK TO MAKE SURE MODEL IS CENTERED?!@?!?!?!?
+//TODO: FIGURE OUT HOW TO USE DRACOLOADER TO LOAD COMPRESSED MODEL FROM BLENDER? IS IT EVEN WORTH IT?
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { SimplifyModifier } from 'three/examples/jsm/modifiers/SimplifyModifier.js';
 import { AsciiEffect } from 'three/examples/jsm/effects/AsciiEffect.js';
 import { FontLoader } from 'three/addons/loaders/FontLoader.js';
 import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
-
-//waits for three scene to be fully loaded before adding dom elements
-
 
 let camera, scene, renderer, effect;
 let controls;
@@ -16,6 +15,8 @@ let model, mixer;
 let loadingText;
 let rotatingLight;
 let ambientLight;
+
+//waits for three scene to be fully loaded before adding dom elements
 
 function initThreeScene() {
 
@@ -61,7 +62,7 @@ function initThreeScene() {
     
     window.addEventListener('resize' , onWindowResize);
 
-    // Add helpers (if needed)
+    // Add helpers (if needed) (might add this to future code or switch or something)
     // const axesHelper = new THREE.AxesHelper(5);
     // scene.add(axesHelper);
 
@@ -265,10 +266,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function loadModelBasic() {
+    //changed to dracoloader instead of standard gltf loader
+    const dracoLoader = new DRACOLoader();
+
+    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/'); //path to dracoloader, will work no matter what since it isnt a local file
+    dracoLoader.setDecoderConfig({ type: 'js' }); // Use JS decoder
+
     const loader = new GLTFLoader();
+    loader.setDRACOLoader(dracoLoader);
 
     loader.load(
-        'res/models/NEW ANGEL MODEL NO BACKPACK/no backpack.gltf',
+        'res/models/compressedModel/Everything.gltf', //DESTINATION OF MODEL
         function(gltf) {
             console.log('Model loaded successfully');
             model = gltf.scene;
