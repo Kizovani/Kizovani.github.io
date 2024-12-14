@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kizovani - Art</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        /* Art Gallery Grid Container */
+        .art-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 images across */
+            gap: 20px; /* Space between grid items */
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Individual Art Item */
+        .art-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .art-item:hover {
+            transform: scale(1.02);
+        }
+
+        /* Image styling */
+        .art-item img {
+            width: 100%;
+            height: 400px; /* Fixed height, can be adjusted */
+            object-fit: cover; /* Maintains aspect ratio */
+        }
+
+        /* Text description */
+        .art-description {
+            padding: 15px;
+        }
+
+        .art-description h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .art-description p {
+            color: #666;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .art-gallery {
+                grid-template-columns: 1fr; /* Single column on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="art-gallery">
+        <div>
+            <h1>My Art Collection</h1>
+            <p>I really wanted to show off some of the art Ive come to like over the years, most of these have been either my desktop wallpaper or phone backround at one point or another.</p>
+        </div>
+        <!-- First Art Item -->
+        <div class="art-item">
+            <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="Art Piece 1">
+            <div class="art-description">
+                <h2>First Artwork Title</h2>
+                <p>A brief description of the artwork, its inspiration, or what it means to you. This text provides context and personal insight into the piece.</p>
+            </div>
+        </div>
+
+        <!-- Second Art Item -->
+        <div class="art-item">
+            <img src="/api/placeholder/600/400" alt="Art Piece 2">
+            <div class="art-description">
+                <h2>Second Artwork Title</h2>
+                <p>Another description that shares the story behind this artwork. You can describe the technique, the emotions it evokes, or any personal connection.</p>
+            </div>
+        </div>
+
+        <!-- Add more art items as needed -->
+        <div class="art-item">
+            <img src="/api/placeholder/600/400" alt="Art Piece 3">
+            <div class="art-description">
+                <h2>Third Artwork Title</h2>
+                <p>Continue adding more artworks to fill out your gallery. The grid will automatically adjust and scroll vertically.</p>
+            </div>
+        </div>
+
+        <div class="art-item">
+            <img src="/api/placeholder/600/400" alt="Art Piece 4">
+            <div class="art-description">
+                <h2>Fourth Artwork Title</h2>
+                <p>Each new art item will add to the scrollable grid, creating a dynamic and engaging display of your art collection.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
