@@ -5,50 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kizovani - Art</title>
     <style>
-        /* Reset and base styles */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+       :root {
+    --white: #ffffff;
+    --black: #000000;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* overflow: hidden; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  @font-face {
+    font-family: "Arame Mono";
+    src: url("/res/fonts/ArameMono.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Hack-Regular";
+  src: url(/res/fonts/Hack-Regular.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Bolditalic";
+src: url(/res/fonts/Hack-BoldItalic.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Italic";
+  src: url(/res/fonts/Hack-Italic.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Bold";
+  src: url(/res/fonts/Hack-Bold.ttf);
+}
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Arame Mono", monospace;
             line-height: 1.6;
-            background-color: #f4f4f4;
+            color: var(--white);
+            background-color: var(--black);
             padding: 20px;
         }
 
-        /* Art Gallery Grid Container */
         .art-gallery {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 images across */
-            gap: 20px; /* Space between grid items */
-            max-width: 1200px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            /* TODO: ITS THIS ONE BELOW */
+            max-width: 1000px;
             margin: 0 auto;
         }
 
-        /* Individual Art Item */
         .art-item {
-            background-color: white;
-            border-radius: 8px;
+            background-color: var(--white);
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.3s ease;
+            /* cursor: pointer; Added for better UX */
         }
 
-        .art-item:hover {
-            transform: scale(1.02);
-        }
-
-        /* Image styling */
         .art-item img {
             width: 100%;
-            height: 400px; /* Fixed height, can be adjusted */
-            object-fit: cover; /* Maintains aspect ratio */
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
         }
 
-        /* Text description */
         .art-description {
             padding: 15px;
         }
@@ -62,11 +90,44 @@
             color: #666;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .art-gallery {
-                grid-template-columns: 1fr; /* Single column on smaller screens */
+                grid-template-columns: 1fr;
             }
+        }
+
+        /* New fullscreen styles */
+        .fullscreen-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .fullscreen-container.active {
+            display: flex;
+        }
+
+        .fullscreen-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .close-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
         }
     </style>
 </head>
@@ -74,42 +135,195 @@
     <div class="art-gallery">
         <div>
             <h1>My Art Collection</h1>
-            <p>I really wanted to show off some of the art Ive come to like over the years, most of these have been either my desktop wallpaper or phone backround at one point or another.</p>
+            <p>I really wanted to show off some of the art I've liked over the years, most of these have been either my desktop wallpaper or phone background at one point or another. This page is intented to be the answer to when someone asks me something along the lines of "what kind of art do you like?". All of these works convey a deeper meaning to me, usually revolving around personal life events. I might get one of these tattooed one day. For now just enjoy my little gallery and learn a thing or two about these artists.</p>
         </div>
+        
         <!-- First Art Item -->
         <div class="art-item">
-            <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="Art Piece 1">
+            <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="Art Piece 1" class="gallery-image">
             <div class="art-description">
-                <h2>First Artwork Title</h2>
-                <p>A brief description of the artwork, its inspiration, or what it means to you. This text provides context and personal insight into the piece.</p>
-            </div>
-        </div>
-
-        <!-- Second Art Item -->
-        <div class="art-item">
-            <img src="/api/placeholder/600/400" alt="Art Piece 2">
-            <div class="art-description">
-                <h2>Second Artwork Title</h2>
-                <p>Another description that shares the story behind this artwork. You can describe the technique, the emotions it evokes, or any personal connection.</p>
-            </div>
-        </div>
-
-        <!-- Add more art items as needed -->
-        <div class="art-item">
-            <img src="/api/placeholder/600/400" alt="Art Piece 3">
-            <div class="art-description">
-                <h2>Third Artwork Title</h2>
-                <p>Continue adding more artworks to fill out your gallery. The grid will automatically adjust and scroll vertically.</p>
+                <h2>I WILL NEVER LET THIS FEELING GO</h2>
+                <p>
+                    I AM IN LOVE,
+                    WITH MY ILLNESS,
+                    MANIC,
+                    AND HOWLING AT THE SUN,
+                    I WAS RAISED BY BEDLAM,
+                    I AM A BROTHER TO MAYHEM,
+                    I WILL ROLL MY DROOLING JAWS,
+                    I WILL DIG AT STONE WITH CLAWS
+                    - pitchcanker
+                </p>
             </div>
         </div>
 
         <div class="art-item">
-            <img src="/api/placeholder/600/400" alt="Art Piece 4">
+            <img src="/res/art/fallen_angel.jpg" alt="Art Piece 2" class="gallery-image">
             <div class="art-description">
-                <h2>Fourth Artwork Title</h2>
-                <p>Each new art item will add to the scrollable grid, creating a dynamic and engaging display of your art collection.</p>
+                <h2>I WILL NEVER LET THIS FEELING GO</h2>
+                <p>
+                    I AM IN LOVE,
+                    WITH MY ILLNESS,
+                    MANIC,
+                    AND HOWLING AT THE SUN,
+                    I WAS RAISED BY BEDLAM,
+                    I AM A BROTHER TO MAYHEM,
+                    I WILL ROLL MY DROOLING JAWS,
+                    I WILL DIG AT STONE WITH CLAWS
+                    - pitchcanker
+                </p>
             </div>
         </div>
+
+        <!-- Keep your other art items, just add class="gallery-image" to each img -->
+        <!-- ... other art items ... -->
     </div>
+
+    <!-- Fullscreen container -->
+    <div class="fullscreen-container">
+        <div class="close-button">&times;</div>
+        <img class="fullscreen-image" alt="Fullscreen view">
+    </div>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+
+    <script>
+        // Register FLIP plugin
+        gsap.registerPlugin(Flip);
+
+        // Get DOM elements
+        const gallery = document.querySelector('.art-gallery');
+        const fullscreenContainer = document.querySelector('.fullscreen-container');
+        const fullscreenImage = fullscreenContainer.querySelector('.fullscreen-image');
+        const closeButton = document.querySelector('.close-button');
+        let activeImage = null;
+
+        // Function to open fullscreen ITS BROKEN LMFAO
+        //TODO: CURRENTLY, ITS USING CSS PROPERTIES AND JUMPING BETWEEN THEM TO ANIMATE THE FULLSCREEN IMAGE, INSTEAD, WE WANT TO SELECT WHATEVER THE USERCLICKED AND ANIMATE IT TO FULLSCREEN
+        //WITH GSAP
+        function openFullscreen(image) {
+    // 1. Record the initial state
+    const state = Flip.getState(image, {props: "transform"});
+    
+    // 2. Clone the image for the fullscreen view
+    const clone = image.cloneNode(true);
+    fullscreenContainer.appendChild(clone);
+    
+    // 3. Add fullscreen styling to the clone
+    clone.style.position = "fixed";
+    clone.style.maxWidth = "90vw";
+    clone.style.maxHeight = "90vh";
+    clone.style.width = "auto";
+    clone.style.height = "auto";
+    clone.style.top = "50%";
+    clone.style.left = "50%";
+    clone.style.transform = "translate(-50%, -50%)";
+    clone.style.objectFit = "contain";
+    clone.style.zIndex = "1001";
+    
+    // 4. Show the container
+    fullscreenContainer.classList.add('active');
+    
+    // 5. Animate from the initial state to the new state
+    Flip.from(state, {
+        duration: 0.5,
+        ease: "power2.inOut",
+        absolute: true,
+        targets: clone,
+        onComplete: () => {
+            // Store reference to the clone
+            activeImage = clone;
+        }
+    });
+}
+
+function closeFullscreen() {
+    if (!activeImage) return;
+
+    // 1. Get the original image that was clicked
+    const originalImage = document.querySelector(`img[src="${activeImage.src}"]`);
+    
+    // 2. Record the current state of the fullscreen image
+    const state = Flip.getState(activeImage, {props: "transform"});
+    
+    // 3. Apply the original image's dimensions
+    activeImage.style.width = "100%";
+    activeImage.style.height = "400px";
+    activeImage.style.objectFit = "cover";
+    activeImage.style.position = "relative";
+    activeImage.style.maxWidth = "none";
+    activeImage.style.maxHeight = "none";
+    activeImage.style.top = "auto";
+    activeImage.style.left = "auto";
+    activeImage.style.transform = "none";
+    
+    // 4. Animate back to the thumbnail position
+    Flip.from(state, {
+        duration: 0.5,
+        ease: "power2.inOut",
+        absolute: true,
+        onComplete: () => {
+            // Remove the clone and clean up
+            activeImage.remove();
+            activeImage = null;
+            fullscreenContainer.classList.remove('active');
+        }
+    });
+}
+
+
+        // Add click listeners to all gallery images
+        document.querySelectorAll('.art-item img').forEach(image => {
+    image.addEventListener('load', () => {
+        // Get the natural dimensions of the image
+        const naturalWidth = image.naturalWidth;
+        const naturalHeight = image.naturalHeight;
+        const aspectRatio = naturalWidth / naturalHeight;
+
+        // You can set a maximum width or height as needed
+        const maxWidth = 800;  // example maximum width
+        const maxHeight = 600; // example maximum height
+
+        // Calculate new dimensions while maintaining aspect ratio
+        let newWidth = naturalWidth;
+        let newHeight = naturalHeight;
+
+        // Scale down if wider than max width
+        if (newWidth > maxWidth) {
+            newWidth = maxWidth;
+            newHeight = newWidth / aspectRatio;
+        }
+
+        // If height is still too tall, scale based on height instead
+        if (newHeight > maxHeight) {
+            newHeight = maxHeight;
+            newWidth = newHeight * aspectRatio;
+        }
+
+        // Apply the new dimensions
+        image.style.width = `${newWidth}px`;
+        image.style.height = `${newHeight}px`;
+    });
+
+    // Add click handler
+    image.addEventListener('click', () => openFullscreen(image));
+});
+        // Close fullscreen when clicking the close button or outside the image
+        closeButton.addEventListener('click', closeFullscreen);
+        fullscreenContainer.addEventListener('click', (e) => {
+            if (e.target === fullscreenContainer) {
+                closeFullscreen();
+            }
+        });
+
+        // Close fullscreen with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            }
+        });
+    </script>
 </body>
 </html>
