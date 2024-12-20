@@ -49,18 +49,18 @@ img {
 
 .img-previews {
     position: absolute;
-    top: 25%;
+    top: 0%;
     left: 50%;
     transform: translateX(-50%);
-    width: 30%;
-    /* might not need this */
-    /* opacity: 0; */
+    width: 600px; /* Fixed width instead of percentage */
+    padding-bottom: 50vh; /* Space for scrolling */
 }
 
 .img-previews img {
-    width: 600px;
+    width: 100%;
     height: 700px;
-    padding: 1em 0;
+    object-fit: cover; /* Consistent image cropping */
+    margin-bottom: 1em;
 }
 
 .gallery-container {
@@ -68,32 +68,73 @@ img {
     height: 100%;
     padding-top: 4em;
 }
-/* shouldnt need any gallery-1 stuff */
-.gallery.layout-1-gallery {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    transform: translateX(0%);
-
-}
-.gallery.layout-1-gallery .img {
-    position: absolute;
-    width: 100%;
-    height: 125px;
-}
 .gallery.layout-2-gallery {
-    padding-top: 0.5em;
     position: fixed;
     top: 25%;
     left: 10%;
     transform: translateX(0%);
+    width: 75px; /* Fixed width */
 }
 .gallery.layout-2-gallery .img {
-    width: 75px;
-    height: 100%;
+    width: 100%;
+    height: 90px;
     margin-bottom: 1em;
+    overflow: hidden;
+}
+.gallery.layout-2-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Match main gallery cropping */
 }
 
+.minimap {
+    position: fixed;
+    top: 50%;           /* Center vertically */
+    left: 100px;        /* Fixed distance from left */
+    transform: translateY(-50%); /* Center the element itself */
+    transform: translateX(0);
+    width: 250px;
+    height: 130px;
+    border: 2px solid var(--white);
+    border-radius: 2px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Adjust the highlight style */
+.minimap-highlight {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(0);
+}
+
+.minimap::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.4); /* More visible indicator */
+    top: 0;
+    left: 0;
+    border-radius: 1px;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+ pointer-events: none;   
+}
 
     </style>
 </head>
@@ -103,8 +144,29 @@ img {
             <div class="img" id="img1">
                 <img src="res/art/fallen_angel.jpg" alt="fallen_angel">
             </div>
-            <div class="img" id="img1">
-                <img src="res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="wolf">
+            <div class="img" id="img2">
+                <img src="res/art/I_LAUGH_BECAUSE_I_AM_WEAK.png" alt="fallen_angel">
+            </div>
+            <div class="img" id="img3">
+                <img src="/res/art/I'M_IN_HELL.png" alt="wolf">
+            </div>
+            <div class="img" id="img4">
+                <img src="/res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
+            </div>
+            <div class="img" id="img5">
+                <img src="res/art/LETS_NEGOTIATE.png" alt="placeholder">
+            </div>
+            <div class="img" id="img6">
+                <img src="res/art/Melencolia.png" alt="placeholder">
+            </div>
+            <div class="img" id="img7">
+                <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="placeholder">
+            </div>
+            <div class="img" id="img8">
+                <img src="res/art/TEST.png" alt="placeholder">
+            </div>
+            <div class="img" id="img9">
+                <img src="res/art/The_Agression_Sessions.png" alt="placeholder">
             </div>
 
         </div>
@@ -114,56 +176,16 @@ img {
 
     <div class="img-previews">
         <img src="res/art/fallen_angel.jpg" alt="fallen_angel">
-        <img src="res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="wolf">
+        <img src="res/art/I_LAUGH_BECAUSE_I_AM_WEAK.png" alt="">
+        <img src="/res/art/I'M_IN_HELL.png" alt="wolf">
+        <img src="res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
+        <img src="res/art/LETS_NEGOTIATE.png" alt="">
+        <img src="res/art/Melencolia.png" alt="">
+        <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="">
+        <img src="res/art/TEST.png" alt="">
+        <img src="res/art/The_Agression_Sessions.png" alt="">
+
     </div>
-<!-- LEGACY ART GALLERY -->
-    <!-- <div class="art-gallery">
-        <div>
-            <h1>My Art Collection</h1>
-            <p>I really wanted to show off some of the art I've liked over the years, most of these have been either my desktop wallpaper or phone background at one point or another. This page is intented to be the answer to when someone asks me something along the lines of "what kind of art do you like?". All of these works convey a deeper meaning to me, usually revolving around personal life events. I might get one of these tattooed one day. For now just enjoy my little gallery and learn a thing or two about these artists.</p>
-        </div>
-        <div class="art-item">
-            <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="Art Piece 1" class="gallery-image">
-            <div class="art-description">
-                <h2>I WILL NEVER LET THIS FEELING GO</h2>
-                <p>
-                    I AM IN LOVE,
-                    WITH MY ILLNESS,
-                    MANIC,
-                    AND HOWLING AT THE SUN,
-                    I WAS RAISED BY BEDLAM,
-                    I AM A BROTHER TO MAYHEM,
-                    I WILL ROLL MY DROOLING JAWS,
-                    I WILL DIG AT STONE WITH CLAWS
-                    - pitchcanker
-                </p>
-            </div>
-        </div>
-
-        <div class="art-item">
-            <img src="/res/art/fallen_angel.jpg" alt="Art Piece 2" class="gallery-image">
-            <div class="art-description">
-                <h2>I WILL NEVER LET THIS FEELING GO</h2>
-                <p>
-                    I AM IN LOVE,
-                    WITH MY ILLNESS,
-                    MANIC,
-                    AND HOWLING AT THE SUN,
-                    I WAS RAISED BY BEDLAM,
-                    I AM A BROTHER TO MAYHEM,
-                    I WILL ROLL MY DROOLING JAWS,
-                    I WILL DIG AT STONE WITH CLAWS
-                    - pitchcanker
-                </p>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- Fullscreen container -->
-    <!-- <div class="fullscreen-container">
-        <div class="close-button">&times;</div>
-        <img class="fullscreen-image" alt="Fullscreen view">
-    </div> -->
 
     <div class="menu-container">
         <div class="col col-1">
@@ -190,13 +212,102 @@ img {
     <!-- GSAP Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 
     <script>
-        // Register FLIP plugin
-        gsap.registerPlugin(Flip);
+        //BELOW IS ALL THE FUNCTIONALITY FOR THE SCROLLBAR AND PREVIEW WINDOW THING
+        const lenis = new Lenis();
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
 
+gsap.registerPlugin(ScrollToPlugin);
+
+const gallery = document.querySelector('.layout-2-gallery');
+const imgPreviews = document.querySelector('.img-previews');
+const minimap = document.querySelector('.minimap');
+
+// Add highlight box if it doesn't exist
+if (!minimap.querySelector('.minimap-highlight')) {
+    const highlight = document.createElement('div');
+    highlight.className = 'minimap-highlight';
+    minimap.appendChild(highlight);
+
+    // Add CSS for the highlight
+    const style = document.createElement('style');
+    style.textContent = `
+        .minimap {
+            overflow: hidden;
+            position: fixed;
+            background: rgba(0, 0, 0, 0.2); /* Darkened background to see movement better */
+        }
+        .minimap-highlight {
+            position: absolute;
+            width: 100%;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(0);
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function handleScroll() {
+    // Get the highlight element
+    const highlight = minimap.querySelector('.minimap-highlight');
+    
+    // Get dimensions
+    const previewsRect = imgPreviews.getBoundingClientRect();
+    const minimapHeight = minimap.offsetHeight;
+    const highlightHeight = highlight.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const totalScrollHeight = imgPreviews.scrollHeight - viewportHeight;
+    
+    // Calculate scroll progress as a ratio of how far through the previews we've scrolled
+    const scrollProgress = window.scrollY / totalScrollHeight;
+    const boundedProgress = Math.min(Math.max(scrollProgress, 0), 1);
+    
+    // Calculate available travel space in minimap
+    const availableMinimapTravel = minimapHeight - highlightHeight;
+    
+    // Move highlight
+    const highlightY = boundedProgress * availableMinimapTravel;
+    
+    gsap.to(highlight, {
+        y: highlightY,
+        duration: 0.1,
+        ease: "none"
+    });
+
+    // Move gallery with same ratio
+    const galleryStart = viewportHeight * 0.25;
+    const maxTravel = viewportHeight * 0.95;
+    const galleryY = galleryStart - (boundedProgress * maxTravel);
+
+    gsap.to(gallery, {
+        y: galleryY,
+        duration: 0.1,
+        ease: "none"
+    });
+
+    // Debug info
+    console.log({
+        scrollProgress,
+        highlightY,
+        totalHeight: imgPreviews.scrollHeight,
+        scrollY: window.scrollY
+    });
+}
+
+// Use only Lenis for smooth scrolling
+lenis.on('scroll', handleScroll);
+
+// Initialize on load
+window.addEventListener('load', handleScroll);
         // Get DOM elements
-        const gallery = document.querySelector('.art-gallery');
         const fullscreenContainer = document.querySelector('.fullscreen-container');
         const fullscreenImage = fullscreenContainer.querySelector('.fullscreen-image');
         const closeButton = document.querySelector('.close-button');
