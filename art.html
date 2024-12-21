@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kizovani - Art</title>
+    <style>
+       :root {
+    --white: #ffffff;
+    --black: #000000;
+  }
+
+  @font-face {
+    font-family: "Arame Mono";
+    src: url("/assets/ArameMono-BxO6foiL.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Hack-Regular";
+  src: url(/assets/Hack-Regular-D6rFOwSy.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Bolditalic";
+src: url(/assets/Hack-BoldItalic-iNZYSiHu.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Italic";
+  src: url(/assets/Hack-Italic-DqkP-GBW.ttf);
+}
+
+@font-face {
+  font-family: "Hack-Bold";
+  src: url(/assets/Hack-Bold-CVmVTnBC.ttf);
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: "Arame Mono";
+}
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-previews {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px; /* Fixed width instead of percentage */
+    padding-bottom: 50vh; /* Space for scrolling */
+}
+
+.img-previews img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover; /* Consistent image cropping */
+    margin-bottom: 1em;
+}
+
+.gallery-container {
+    width: 100%;
+    height: 100%;
+    padding-top: 4em;
+}
+.gallery.layout-2-gallery {
+    position: fixed;
+    top: 25%;
+    left: 10%;
+    transform: translateX(0%);
+    width: 75px; /* Fixed width */
+}
+.gallery.layout-2-gallery .img {
+    width: 100%;
+    height: 90px;
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+.gallery.layout-2-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Match main gallery cropping */
+}
+
+.minimap {
+    position: fixed;
+    top: 50%;           /* Center vertically */
+    left: 100px;        /* Fixed distance from left */
+    transform: translateY(-50%); /* Center the element itself */
+    transform: translateX(0);
+    width: 250px;
+    height: 130px;
+    border: 2px solid var(--white);
+    border-radius: 2px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    will-change: transform;
+}
+
+/* Adjust the highlight style */
+.minimap-highlight {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(0);
+}
+
+.minimap::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.4); /* More visible indicator */
+    top: 0;
+    left: 0;
+    border-radius: 1px;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+ pointer-events: none;   
+}
+
+    </style>
+  <script type="module" crossorigin src="/assets/main-Ch_IRwmz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-uJhdVNNR.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <div class="gallery layout-2-gallery">
+            <div class="img" id="img1">
+                <img src="/assets/fallen_angel-Ca8zgW3p.jpg" alt="fallen_angel">
+            </div>
+            <div class="img" id="img2">
+                <img src="/assets/I_LAUGH_BECAUSE_I_AM_WEAK-BqPB7DWQ.png" alt="fallen_angel">
+            </div>
+            <div class="img" id="img3">
+                <img src="/assets/I'M_IN_HELL-DaW3Bb9h.png" alt="wolf">
+            </div>
+            <div class="img" id="img4">
+                <img src="/assets/IT_KEEPS_GETTING_WORSE-Bc4v-Lxj.png" alt="placeholder">
+            </div>
+            <div class="img" id="img5">
+                <img src="/assets/LETS_NEGOTIATE-lto7H91w.png" alt="placeholder">
+            </div>
+            <div class="img" id="img6">
+                <img src="/assets/Melencolia-UKai2yub.png" alt="placeholder">
+            </div>
+            <div class="img" id="img7">
+                <img src="/assets/Screenshot%202024-12-13%20at%2022-32-59%20PITCH%20CANKER%20(@pitchcanker)%20%E2%80%A2%20Instagram%20photos%20and%20videos-BzvwKUT7.png" alt="placeholder">
+            </div>
+            <div class="img" id="img8">
+                <img src="data:image/png;base64,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" alt="placeholder">
+            </div>
+            <div class="img" id="img9">
+                <img src="/assets/The_Agression_Sessions-DEvmKh7U.png" alt="placeholder">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="minimap"></div>
+
+    <div class="img-previews">
+        <img src="/assets/fallen_angel-Ca8zgW3p.jpg" alt="fallen_angel">
+        <img src="/assets/I_LAUGH_BECAUSE_I_AM_WEAK-BqPB7DWQ.png" alt="">
+        <img src="/assets/I'M_IN_HELL-DaW3Bb9h.png" alt="wolf">
+        <img src="/assets/IT_KEEPS_GETTING_WORSE-Bc4v-Lxj.png" alt="placeholder">
+        <img src="/assets/LETS_NEGOTIATE-lto7H91w.png" alt="">
+        <img src="/assets/Melencolia-UKai2yub.png" alt="">
+        <img src="/assets/Screenshot%202024-12-13%20at%2022-32-59%20PITCH%20CANKER%20(@pitchcanker)%20%E2%80%A2%20Instagram%20photos%20and%20videos-BzvwKUT7.png" alt="">
+        <img src="data:image/png;base64,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" alt="">
+        <img src="/assets/The_Agression_Sessions-DEvmKh7U.png" alt="">
+
+    </div>
+
+    <div class="menu-container">
+        <div class="col col-1">
+            <div class="menu-item" id="menu-toggle">menu</div>
+        </div>
+        <div class="col col-2">
+            <div class="menu-item" id="close-menu">close</div>
+            <div class="menu-item"><a href="index.html">home</a></div>
+            <div class="menu-item"><a href="projects.html">projects</a></div>
+            <div class="menu-item">art i like</div>
+            <div class="menu-item"><a href="info.html">info</a></div>
+            <div class="menu-item">contact</div>
+        </div>
+    </div>
+    <div class="marquee-container">
+        <div class="marquee">
+            projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+    <!-- typewriter-effect I might use -->
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <script>
+        //ADJUST THIS TO MOVE THE MINI GALLERY FASTER OR SLOWER (HIGHER IS FASTER)
+        const SCALING_RATIO = 0.95;
+
+        //BELOW IS ALL THE FUNCTIONALITY FOR THE SCROLLBAR AND PREVIEW WINDOW THING
+        const lenis = new Lenis();
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+// gsap.registerPlugin(ScrollToPlugin);
+
+const gallery = document.querySelector('.layout-2-gallery');
+const imgPreviews = document.querySelector('.img-previews');
+const minimap = document.querySelector('.minimap');
+
+if (!minimap.querySelector('.minimap-highlight')) {
+    const highlight = document.createElement('div');
+    highlight.className = 'minimap-highlight';
+    minimap.appendChild(highlight);
+}
+
+function handleScroll() {
+    // Get the highlight element
+    const highlight = minimap.querySelector('.minimap-highlight');
+    
+    // Get dimensions
+    const previewsRect = imgPreviews.getBoundingClientRect();
+    const minimapHeight = minimap.offsetHeight;
+    const highlightHeight = highlight.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const totalScrollHeight = imgPreviews.scrollHeight - viewportHeight;
+    
+    // Calculate scroll progress as a ratio of how far through the previews we've scrolled
+    const scrollProgress = window.scrollY / totalScrollHeight;
+    const boundedProgress = Math.min(Math.max(scrollProgress, 0), 1);
+    
+    // Calculate available travel space in minimap
+    const availableMinimapTravel = minimapHeight - highlightHeight;
+    
+    // Move highlight
+    const highlightY = boundedProgress * availableMinimapTravel;
+    
+    gsap.to(highlight, {
+        y: highlightY,
+        duration: 0.1,
+        ease: "none"
+    });
+
+    // Move gallery with same ratio
+    const galleryStart = viewportHeight * 0.25;
+    const maxTravel = viewportHeight * SCALING_RATIO;
+    const galleryY = galleryStart - (boundedProgress * maxTravel);
+
+    gsap.to(gallery, {
+        y: galleryY,
+        duration: 0.1,
+        ease: "none"
+    });
+
+    // Debug info
+    console.log({
+        scrollProgress,
+        highlightY,
+        totalHeight: imgPreviews.scrollHeight,
+        scrollY: window.scrollY
+    });
+}
+
+// Use only Lenis for smooth scrolling
+lenis.on('scroll', handleScroll);
+
+// Initialize on load
+window.addEventListener('load', handleScroll);
+
+
+
+    </script>
+</body>
+</html>
