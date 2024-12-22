@@ -373,15 +373,21 @@ function isInViewport(element) {
 
 //TESTING AREA::
 
+//wait for page to load
 document.addEventListener('DOMContentLoaded', () => {
+    //get all the images
     const previewContainers = document.querySelectorAll('.preview-container');
-    
+    //for each image
     previewContainers.forEach((container) => {
+        //define the text overlay(box containing everything) and the text element(actual text)
         const textOverlay = container.querySelector('.text-overlay');
         const textElement = container.querySelector('.overlay-text');
+        //save the original html
         const originalHtml = textElement.innerHTML;
-        let typewriterInstance = null;
 
+        let typewriterInstance = null;
+        
+        //when the mouse enters a preview container
         container.addEventListener('mouseenter', () => {
             // Show overlay
             textOverlay.style.opacity = '1';
