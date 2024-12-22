@@ -54,6 +54,9 @@ img {
     width: 600px; /* Fixed width instead of percentage */
     padding-bottom: 50vh; /* Space for scrolling */
 }
+.img-preview-container {
+    position: relative;
+}
 .img-previews img {
     width: 100%;
     height: 700px;
@@ -132,6 +135,41 @@ img {
 .lenis.lenis-smooth iframe {
  pointer-events: none;   
 }
+.img-previews .preview-container {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            margin-bottom: 1em;
+        }
+ .img-previews .preview-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    }
+    .text-overlay {
+    position: absolute;
+    width: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.overlay-text {
+    color: black;
+    font-family: "Arame Mono";
+    font-size: 24px;
+    padding: 30px;
+    width: 100%;
+    border-radius: 4px;
+    z-index: 2;
+    white-space: pre-line;
+    line-height: 0.9;
+}
+        
 
     </style>
 </head>
@@ -172,7 +210,18 @@ img {
     <div class="minimap"></div>
 
     <div class="img-previews">
-        <img src="res/art/fallen_angel.jpg" alt="fallen_angel">
+        <div class="preview-container">
+            <img src="res/art/fallen_angel.jpg" alt="fallen_angel">
+            <div class="text-overlay">
+                <div class="overlay-text">Alexandre Cabanel <br>
+                    (French, 1823-1889) <br>
+                    "The Fallen Angel" <br>
+                    (L'ange déchu) <br>
+                    1847 <br>
+                    Oil on canvas</div>
+            </div>
+        </div>
+        
         <img src="res/art/I_LAUGH_BECAUSE_I_AM_WEAK.png" alt="">
         <img src="/res/art/I'M_IN_HELL.png" alt="wolf">
         <img src="res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
@@ -209,17 +258,18 @@ img {
     <!-- typewriter-effect I might use -->
     <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
 
+
     <!-- GSAP Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
     <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/baffle@0.3.6/dist/baffle.min.js"></script>
 
     <script>
-        //ADJUST THIS TO MOVE THE MINI GALLERY FASTER OR SLOWER (HIGHER IS FASTER)
+        //HERE: ADJUST THIS TO MOVE THE MINI GALLERY FASTER OR SLOWER (HIGHER IS FASTER)
         const SCALING_RATIO = 1.18;
 
-        //BELOW IS ALL THE FUNCTIONALITY FOR THE SCROLLBAR AND PREVIEW WINDOW THING
         const lenis = new Lenis();
 function raf(time) {
     lenis.raf(time);
@@ -292,6 +342,100 @@ lenis.on('scroll', handleScroll);
 // Initialize on load
 window.addEventListener('load', handleScroll);
 
+//maybe using hover instead?
+//DESCRIPTION TEXT:
+// Alexandre Cabanel (French, 1823-1889)
+// "The Fallen Angel" (L'ange déchu), 1847
+// Oil on canvas
+
+//will need this for descriptions to pop up on view
+
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+//TESTING AREA::
+
+document.addEventListener('DOMContentLoaded', () => {
+    const previewContainers = document.querySelectorAll('.preview-container');
+    
+    previewContainers.forEach((container) => {
+        const textOverlay = container.querySelector('.text-overlay');
+        const textElement = container.querySelector('.overlay-text');
+        const originalHtml = textElement.innerHTML; // Store original HTML
+        let typewriterInstance = null;
+        let baffleInstance = null;
+        
+        container.addEventListener('mouseenter', () => {
+            // Make background visible first
+            textOverlay.style.opacity = '1';
+            
+            // Clear any existing typewriter instance
+            if (typewriterInstance) {
+                typewriterInstance.destroy();
+            }
+            
+            // Clear the text element
+            textElement.innerHTML = '';
+            
+            // Initialize new typewriter with HTML support
+            typewriterInstance = new Typewriter(textElement, {
+                delay: 2,
+                cursor: '|',
+                html: true // Enable HTML parsing
+            });
+            
+            // Start typing
+            typewriterInstance
+                .typeString(originalHtml)
+                .start();
+        });
+
+        container.addEventListener('mouseleave', async () => {
+            // Initialize baffle on the current text
+            baffleInstance = baffle(textElement, {
+                
+                characters: '░█▓ ▒/▒ █░▓/ ░█▒█ ▓▒░ ▓░█░',
+                speed: 50
+            });
+            
+            // Start scrambling effect
+            baffleInstance.start();
+            
+            // After a short delay, fade out the overlay
+            await new Promise(resolve => setTimeout(resolve, 500));
+            textOverlay.style.opacity = '0';
+            
+            // Wait for fade out, then clean up
+            await new Promise(resolve => setTimeout(resolve, 300));
+            
+            if (typewriterInstance) {
+                typewriterInstance.destroy();
+                typewriterInstance = null;
+            }
+            
+            if (baffleInstance) {
+                baffleInstance.stop();
+                baffleInstance = null;
+            }
+            
+            textElement.innerHTML = originalText.replace(/\n/g, '<br>');
+        });
+    });
+
+    //BAFFLE WHEN LEAVING PAGE
+//     let baffleEffect = baffle('.overlay-text', {
+
+// characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+// speed: 70,
+// });
+});
 
 
     </script>
