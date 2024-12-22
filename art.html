@@ -221,8 +221,19 @@ img {
                     Oil on canvas</div>
             </div>
         </div>
+        <div class="preview-container">
+            <img src="res/art/I_LAUGH_BECAUSE_I_AM_WEAK.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">Micheal <br>
+                    Is <br>
+                    A <br>
+                    Real nice <br>
+                    Fella <br>
+                     nigga  
+                    </div>
+            </div>
+        </div>
         
-        <img src="res/art/I_LAUGH_BECAUSE_I_AM_WEAK.png" alt="">
         <img src="/res/art/I'M_IN_HELL.png" alt="wolf">
         <img src="res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
         <img src="res/art/LETS_NEGOTIATE.png" alt="">
@@ -368,76 +379,54 @@ document.addEventListener('DOMContentLoaded', () => {
     previewContainers.forEach((container) => {
         const textOverlay = container.querySelector('.text-overlay');
         const textElement = container.querySelector('.overlay-text');
-        const originalHtml = textElement.innerHTML; // Store original HTML
+        const originalHtml = textElement.innerHTML;
         let typewriterInstance = null;
-        let baffleInstance = null;
-        
+
         container.addEventListener('mouseenter', () => {
-            // Make background visible first
+            // Show overlay
             textOverlay.style.opacity = '1';
             
-            // Clear any existing typewriter instance
-            if (typewriterInstance) {
-                typewriterInstance.destroy();
-            }
-            
-            // Clear the text element
+            // Clear text
             textElement.innerHTML = '';
             
-            // Initialize new typewriter with HTML support
+            // Create new typewriter instance
             typewriterInstance = new Typewriter(textElement, {
                 delay: 2,
                 cursor: '|',
-                html: true // Enable HTML parsing
+                html: true
             });
             
-            // Start typing
+            // Type out text
             typewriterInstance
                 .typeString(originalHtml)
                 .start();
         });
 
-        container.addEventListener('mouseleave', async () => {
-            // Initialize baffle on the current text
-            baffleInstance = baffle(textElement, {
-                
-                characters: '░█▓ ▒/▒ █░▓/ ░█▒█ ▓▒░ ▓░█░',
-                speed: 50
-            });
-            
-            // Start scrambling effect
-            baffleInstance.start();
-            
-            // After a short delay, fade out the overlay
-            await new Promise(resolve => setTimeout(resolve, 500));
-            textOverlay.style.opacity = '0';
-            
-            // Wait for fade out, then clean up
-            await new Promise(resolve => setTimeout(resolve, 300));
-            
+        container.addEventListener('mouseleave', () => {
             if (typewriterInstance) {
-                typewriterInstance.destroy();
-                typewriterInstance = null;
+                // Delete all text quickly
+                typewriterInstance
+                    .deleteAll(0.1)
+                    .start();
+                    setTimeout(() => {
+                        // Fade out overlay as text deletes
+                        textOverlay.style.opacity = '0';
+                    }, 750);
+                
+                
+                
+                // Reset after fade
+                setTimeout(() => {
+                    if (typewriterInstance) {
+                        typewriterInstance.stop();
+                        typewriterInstance = null;
+                    }
+                    textElement.innerHTML = originalHtml;
+                }, 1100);
             }
-            
-            if (baffleInstance) {
-                baffleInstance.stop();
-                baffleInstance = null;
-            }
-            
-            textElement.innerHTML = originalText.replace(/\n/g, '<br>');
         });
     });
-
-    //BAFFLE WHEN LEAVING PAGE
-//     let baffleEffect = baffle('.overlay-text', {
-
-// characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
-// speed: 70,
-// });
 });
-
-
     </script>
 </body>
 </html>
