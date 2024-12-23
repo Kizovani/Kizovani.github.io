@@ -167,7 +167,7 @@ img {
     border-radius: 4px;
     z-index: 2;
     white-space: pre-line;
-    line-height: 0.9;
+    line-height: 0.8;
 }
         
 
@@ -195,7 +195,7 @@ img {
                 <img src="res/art/Melencolia.png" alt="placeholder">
             </div>
             <div class="img" id="img7">
-                <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="placeholder">
+                <img src="/res/art/I_WILL_NEVER_LET_THIS_FEELING_GO.png" alt="placeholder">
             </div>
             <div class="img" id="img8">
                 <img src="res/art/TEST.png" alt="placeholder">
@@ -213,32 +213,73 @@ img {
         <div class="preview-container">
             <img src="res/art/fallen_angel.jpg" alt="fallen_angel">
             <div class="text-overlay">
-                <div class="overlay-text">Alexandre Cabanel <br>
-                    (French, 1823-1889) <br>
-                    "The Fallen Angel" <br>
-                    (L'ange déchu) <br>
-                    1847 <br>
-                    Oil on canvas</div>
+                <div class="overlay-text">
+                    <h2>The Fallen Angel</h2>
+                    <p class="subtitle">(L'ange déchu)</p>
+                    <p class="details">(French, 1823-1889)</p>
+                    <p class="details">Alexandre Cabanel</p>
+                    <p class="details">1847</p>
+                    <p class="details">Oil on canvas</p></div>
             </div>
         </div>
         <div class="preview-container">
             <img src="res/art/I_LAUGH_BECAUSE_I_AM_WEAK.png" alt="">
             <div class="text-overlay">
-                <div class="overlay-text">Micheal <br>
-                    Is <br>
-                    A <br>
-                    Real nice <br>
-                    Fella <br>
-                     nigga  
-                    </div>
+                <div class="overlay-text">
+                    <h2>I LAUGH BECAUSE I AM WEAK</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">I LAUGH UNTIL IT HURTS
+                        UNTIL THE CHORTLES RUNNING UP MY SIDES
+                        FORCE MY MUSCLES TO TWITCH AND TICKLE
+                        THE BLADE BETWEEN MY SHOULDERS
+                        AND AS HOT BETRAYAL RUNS
+                        FROM MY MOUTH TO MY HANDS
+                        I LAUGH
+                        BECAUSE I AM WEAK</p>
+                    <p class="details">2022</p>
+                    <p class="details">Digital</p></div>
             </div>
         </div>
-        
-        <img src="/res/art/I'M_IN_HELL.png" alt="wolf">
+        <div class="preview-container">
+            <img src="res/art/I'M_IN_HELL.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>I'M IN HELL</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">I DESERVE TO BE IN PUNISHED
+                        FOR WHAT I’VE DONE
+                        EVERY COLD BLOODED DECISION
+                        HAS LEAD ME HERE
+                        AND I WOULDN’T CHANGE ANYTHING
+                        EVEN IF I COULD BE FORGIVEN
+                        I WOULD MAKE IT WORSE
+                        I WOULD DO IT AGAIN</p>
+                    <p class="details">2023</p>
+                    <p class="details">Digital</p></div>
+            </div>
+        </div>
+         
         <img src="res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
         <img src="res/art/LETS_NEGOTIATE.png" alt="">
         <img src="res/art/Melencolia.png" alt="">
-        <img src="/res/art/Screenshot 2024-12-13 at 22-32-59 PITCH CANKER (@pitchcanker) • Instagram photos and videos.png" alt="">
+        <div class="preview-container">
+            <img src="/res/art/I_WILL_NEVER_LET_THIS_FEELING_GO.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>I WILL NEVER LET THIS FEELING GO</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">I AM IN LOVE
+                        WITH MY ILLNESS
+                        MANIC
+                        AND HOWLING AT THE SUN
+                        I WAS RAISED BY BEDLAM
+                        I AM A BROTHER TO MAYHEM
+                        I WILL ROLL MY DROOLING JAWS
+                        I WILL DIG AT STONE WITH CLAWS</p>
+                    <p class="details">2023</p>
+                    <p class="details">Digital</p></div>
+                </div>
+        </div>
         <img src="res/art/TEST.png" alt="">
         <img src="res/art/The_Agression_Sessions.png" alt="">
 
@@ -278,6 +319,7 @@ img {
     <script src="https://cdn.jsdelivr.net/npm/baffle@0.3.6/dist/baffle.min.js"></script>
 
     <script>
+        //NOTE: THE GALLERY TEXT FADE IN AND OUT TIME NEEDS TO SCALE WITH HOW LONG THE TEXT IS
         //HERE: ADJUST THIS TO MOVE THE MINI GALLERY FASTER OR SLOWER (HIGHER IS FASTER)
         const SCALING_RATIO = 1.18;
 
@@ -353,12 +395,6 @@ lenis.on('scroll', handleScroll);
 // Initialize on load
 window.addEventListener('load', handleScroll);
 
-//maybe using hover instead?
-//DESCRIPTION TEXT:
-// Alexandre Cabanel (French, 1823-1889)
-// "The Fallen Angel" (L'ange déchu), 1847
-// Oil on canvas
-
 //will need this for descriptions to pop up on view
 
 function isInViewport(element) {
@@ -382,8 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
         //define the text overlay(box containing everything) and the text element(actual text)
         const textOverlay = container.querySelector('.text-overlay');
         const textElement = container.querySelector('.overlay-text');
-        //save the original html
-        const originalHtml = textElement.innerHTML;
+        const originalHtml = textElement.innerHTML; //to store the actual html for counting length
+        
+        const textLength = textElement.textContent.length;
 
         let typewriterInstance = null;
         
@@ -397,8 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Create new typewriter instance
             typewriterInstance = new Typewriter(textElement, {
-                delay: 2,
-                cursor: '|',
+                delay: 2,//typewriter speed
+                cursor: '',//no cursor, didnt look that good
                 html: true
             });
             
@@ -407,7 +444,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 .typeString(originalHtml)
                 .start();
         });
-
+        let subtractDelay = 0;
+                if (textLength > 400){
+                    subtractDelay = 265;
+                }
         container.addEventListener('mouseleave', () => {
             if (typewriterInstance) {
                 // Delete all text quickly
@@ -417,7 +457,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     setTimeout(() => {
                         // Fade out overlay as text deletes
                         textOverlay.style.opacity = '0';
-                    }, 750);
+                        //HERE: ADJUST THE TIME HERE TO GIVE THE TEXT TIME TO DELETE BEFORE THE OVERLAY FADES
+                        //NOTE: ON LONG TEXTS (like some of the pitch canker ones) it takes a little too long for the fadeaway,
+                        //scaling probably needs to be adjusted, idk how though
+                    }, 5*textLength - subtractDelay);
                 
                 
                 
@@ -428,7 +471,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         typewriterInstance = null;
                     }
                     textElement.innerHTML = originalHtml;
-                }, 1100);
+                    //HERE: TIME AFTER FADE ANIMATION FOR TYPEWRITER TO DIE
+                    //WARNING: IF TOO SHORT, THE TEXT WILL FLASH BEFORE IT IS DELETED 300ms to account should be enough
+                    
+                }, 5*textLength + 300);
             }
         });
     });
