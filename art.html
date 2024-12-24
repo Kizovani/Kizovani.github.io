@@ -9,6 +9,13 @@
        :root {
     --white: #ffffff;
     --black: #000000;
+     /*viewport-relative units for consistent scaling */
+     --gallery-width: clamp(75px, 5vw, 120px);
+    --preview-width: clamp(600px, 40vw, 900px);
+    --preview-height: clamp(500px, 70vh, 900px);
+    --thumbnail-height: clamp(90px, 10vh, 150px);
+    --minimap-width: clamp(180px, 12vw, 240px);
+    --minimap-height: clamp(100px, 15vh, 150px);
   }
 
   @font-face {
@@ -40,6 +47,9 @@ html, body {
     width: 100%;
     height: 100%;
     font-family: "Arame Mono";
+    /* remove default browser margin and padding to ensure consistency */
+    margin: 0;
+    padding: 0;
 }
 img {
     width: 100%;
@@ -51,7 +61,7 @@ img {
     top: 0%;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px; /* Fixed width instead of percentage */
+    width: var(--preview-width);
     padding-bottom: 50vh; /* Space for scrolling */
 }
 .img-preview-container {
@@ -92,7 +102,7 @@ img {
     top: 50%;           /* Center vertically */
     left: 100px;        /* Fixed distance from left */
     transform: translateY(-50%); /* Center the element itself */
-    transform: translateX(0);
+    transform: translateX(20%); 
     width: 180px;
     height: 100px;
     border: 2px solid var(--white);
@@ -160,7 +170,7 @@ img {
 }
 .overlay-text {
     color: black;
-    font-family: "Arame Mono";
+    font-family: "Hack-Regular";
     font-size: 24px;
     padding: 30px;
     width: 100%;
@@ -293,9 +303,9 @@ img {
             <div class="menu-item" id="close-menu">close</div>
             <div class="menu-item"><a href="index.html">home</a></div>
             <div class="menu-item"><a href="projects.html">projects</a></div>
-            <div class="menu-item">art i like</div>
+            <div class="menu-item"><a href="art.html">art i like</a></div>
             <div class="menu-item"><a href="info.html">info</a></div>
-            <div class="menu-item">contact</div>
+            <div class="menu-item"><a href="contact.html">contact</a></div>
         </div>
     </div>
     <div class="marquee-container">
@@ -303,6 +313,7 @@ img {
             projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects
         </div>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script type="module" src="/main.js"></script>
@@ -407,7 +418,7 @@ function isInViewport(element) {
     );
 }
 
-//TESTING AREA::
+//TESTING AREA:
 
 //wait for page to load
 document.addEventListener('DOMContentLoaded', () => {
@@ -434,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Create new typewriter instance
             typewriterInstance = new Typewriter(textElement, {
-                delay: 2,//typewriter speed
+                delay: 0.01,//typewriter speed
                 cursor: '',//no cursor, didnt look that good
                 html: true
             });
@@ -446,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         let subtractDelay = 0;
                 if (textLength > 400){
-                    subtractDelay = 265;
+                    subtractDelay = 450;
                 }
         container.addEventListener('mouseleave', () => {
             if (typewriterInstance) {
@@ -460,7 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         //HERE: ADJUST THE TIME HERE TO GIVE THE TEXT TIME TO DELETE BEFORE THE OVERLAY FADES
                         //NOTE: ON LONG TEXTS (like some of the pitch canker ones) it takes a little too long for the fadeaway,
                         //scaling probably needs to be adjusted, idk how though
-                    }, 5*textLength - subtractDelay);
+                    }, 5*textLength + subtractDelay);
                 
                 
                 
@@ -474,7 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     //HERE: TIME AFTER FADE ANIMATION FOR TYPEWRITER TO DIE
                     //WARNING: IF TOO SHORT, THE TEXT WILL FLASH BEFORE IT IS DELETED 300ms to account should be enough
                     
-                }, 5*textLength + 300);
+                }, 5*textLength + subtractDelay + 300);
             }
         });
     });
