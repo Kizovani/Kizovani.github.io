@@ -6,118 +6,139 @@
     <link type="text/css" rel="stylesheet" href="main.css">
     <title>Kizovani - Art</title>
     <style>
-       :root {
+    /* Root variables for consistent scaling */
+/* Root variables for consistent scaling */
+:root {
     --white: #ffffff;
     --black: #000000;
-     /*viewport-relative units for consistent scaling */
-     --gallery-width: clamp(75px, 5vw, 120px);
+    
+    /* Viewport-relative units for consistent scaling */
+    --gallery-width: clamp(75px, 5vw, 120px);
     --preview-width: clamp(600px, 40vw, 900px);
     --preview-height: clamp(500px, 70vh, 900px);
     --thumbnail-height: clamp(90px, 10vh, 150px);
     --minimap-width: clamp(180px, 12vw, 240px);
     --minimap-height: clamp(100px, 15vh, 150px);
-  }
+    --text-base: clamp(14px, 1vw, 18px);
+    --text-large: clamp(20px, 1.5vw, 24px);
+    /* MAYBE MAKE THIS SCALE WITH VIEWPORT WIDTH?? */
+    --minimap-width-add: 10px;
+}
 
-  @font-face {
+/* Keep original font faces */
+@font-face {
     font-family: "Arame Mono";
     src: url("/res/fonts/ArameMono.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: "Hack-Regular";
-  src: url(/res/fonts/Hack-Regular.ttf);
+    font-family: "Hack-Regular";
+    src: url(/res/fonts/Hack-Regular.ttf);
 }
 
 @font-face {
-  font-family: "Hack-Bolditalic";
-src: url(/res/fonts/Hack-BoldItalic.ttf);
+    font-family: "Hack-Bolditalic";
+    src: url(/res/fonts/Hack-BoldItalic.ttf);
 }
 
 @font-face {
-  font-family: "Hack-Italic";
-  src: url(/res/fonts/Hack-Italic.ttf);
+    font-family: "Hack-Italic";
+    src: url(/res/fonts/Hack-Italic.ttf);
 }
 
 @font-face {
-  font-family: "Hack-Bold";
-  src: url(/res/fonts/Hack-Bold.ttf);
+    font-family: "Hack-Bold";
+    src: url(/res/fonts/Hack-Bold.ttf);
 }
 
+/* Base styles */
 html, body {
     width: 100%;
     height: 100%;
     font-family: "Arame Mono";
-    /* remove default browser margin and padding to ensure consistency */
     margin: 0;
     padding: 0;
 }
+
 img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+
+/* Main preview section */
 .img-previews {
     position: absolute;
-    top: 0%;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     width: var(--preview-width);
-    padding-bottom: 50vh; /* Space for scrolling */
+    padding-bottom: 50vh;
 }
+
 .img-preview-container {
     position: relative;
 }
+
 .img-previews img {
     width: 100%;
-    height: 700px;
-    object-fit: cover; /* Consistent image cropping */
+    height: var(--preview-height);
+    object-fit: cover;
     margin-bottom: 1em;
 }
+
+/* Gallery container */
 .gallery-container {
     width: 100%;
     height: 100%;
-    padding-top: 4em;
+    padding-top: clamp(2em, 4vh, 4em);
 }
+
+/* Side gallery */
 .gallery.layout-2-gallery {
     position: fixed;
     top: 25%;
-    left: 10%;
-    transform: translateX(0%);
-    width: 75px; /* Fixed width */
+    left: clamp(5%, 10%, 15%);
+    width: var(--gallery-width);
 }
+
 .gallery.layout-2-gallery .img {
     width: 100%;
-    height: 90px;
+    height: var(--thumbnail-height);
     margin-bottom: 1em;
     overflow: hidden;
 }
+
 .gallery.layout-2-gallery img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Match main gallery cropping */
+    object-fit: cover;
 }
 
+/* Minimap */
 .minimap {
     position: fixed;
-    top: 50%;           /* Center vertically */
-    left: 100px;        /* Fixed distance from left */
-    transform: translateY(-50%); /* Center the element itself */
-    transform: translateX(20%); 
-    width: 180px;
-    height: 100px;
+    top: 50%;
+    /* Position relative to gallery's left position */
+    left: clamp(5%, 10%, 15%);
+    transform: translateY(-50%);
+    width: calc(var(--gallery-width) + var(--minimap-width-add));
+    transform: translateX(calc((var(--minimap-width-add) / 2 * -1)));
+    height: var(--minimap-height);
     border: 2px solid var(--white);
     border-radius: 2px;
     z-index: 2;
     background: rgba(255, 255, 255, 0.1);
     pointer-events: none;
     will-change: transform;
+    /* Add margin to align with gallery width */
+    /* margin-left: calc(var(--gallery-width) - clamp(3rem, 6vw, 6rem)); */
 }
 
-/* Adjust the highlight style */
 .minimap-highlight {
     position: absolute;
     width: 100%;
-    height: 30px;
+    height: clamp(20px, 3vh, 30px);
     background: rgba(255, 255, 255, 0.3);
     transform: translateY(0);
 }
@@ -126,12 +147,14 @@ img {
     content: '';
     position: absolute;
     width: 100%;
-    height: 30px;
-    background: rgba(255, 255, 255, 0.4); /* More visible indicator */
+    height: clamp(20px, 3vh, 30px);
+    background: rgba(255, 255, 255, 0.4);
     top: 0;
     left: 0;
     border-radius: 1px;
 }
+
+/* Lenis smooth scroll */
 .lenis.lenis-smooth {
     scroll-behavior: auto !important;
 }
@@ -139,24 +162,31 @@ img {
 .lenis.lenis-smooth [data-lenis-prevent] {
     overscroll-behavior: contain;
 }
+
 .lenis.lenis-stopped {
     overflow: hidden;
 }
+
 .lenis.lenis-smooth iframe {
- pointer-events: none;   
+    pointer-events: none;
 }
+
+/* Preview containers */
 .img-previews .preview-container {
-            position: relative;
-            width: 100%;
-            height: 700px;
-            margin-bottom: 1em;
-        }
- .img-previews .preview-container img {
+    position: relative;
+    width: 100%;
+    height: var(--preview-height);
+    margin-bottom: 1em;
+}
+
+.img-previews .preview-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    }
-    .text-overlay {
+}
+
+/* Text overlay */
+.text-overlay {
     position: absolute;
     width: 90%;
     top: 50%;
@@ -168,19 +198,37 @@ img {
     opacity: 0;
     transition: opacity 0.3s ease;
 }
+
 .overlay-text {
     color: black;
     font-family: "Hack-Regular";
-    font-size: 24px;
-    padding: 30px;
+    font-size: var(--text-base);
+    padding: clamp(20px, 2vw, 30px);
     width: 100%;
     border-radius: 4px;
     z-index: 2;
     white-space: pre-line;
     line-height: 0.8;
 }
-        
 
+/* Media queries */
+@media (max-width: 768px) {
+    :root {
+        --preview-width: 90vw;
+        --gallery-width: clamp(50px, 4vw, 75px);
+    }
+    
+    .gallery.layout-2-gallery {
+        left: 2%;
+    }
+}
+
+@media (min-width: 2560px) {
+    :root {
+        --text-base: clamp(16px, 0.8vw, 20px);
+        --text-large: clamp(24px, 1.2vw, 32px);
+    }
+}
     </style>
 </head>
 <body>
