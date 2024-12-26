@@ -21,8 +21,10 @@
     --minimap-height: clamp(100px, 15vh, 150px);
     --text-base: clamp(14px, 1vw, 18px);
     --text-large: clamp(20px, 1.5vw, 24px);
-    /* MAYBE MAKE THIS SCALE WITH VIEWPORT WIDTH?? */
-    --minimap-width-add: 10px;
+    
+    --minimap-width-add: 170px; /* MAYBE MAKE THIS SCALE WITH VIEWPORT WIDTH?? */
+    /* --gallery-start-position: clamp(243px, 20vh, 300px) */
+
 }
 
 /* Keep original font faces */
@@ -96,10 +98,15 @@ img {
 
 /* Side gallery */
 .gallery.layout-2-gallery {
-    position: fixed;
-    top: 25%;
+     position: fixed;
+    /* Position relative to center, then move up by desired offset */
+    top: 50%;
+    transform: translateY(-50%);
     left: clamp(5%, 10%, 15%);
     width: var(--gallery-width);
+    /* Better transition for scroll movement */
+    transition: transform 0.1s ease;
+    will-change: transform;
 }
 
 .gallery.layout-2-gallery .img {
@@ -316,10 +323,49 @@ img {
                     <p class="details">Digital</p></div>
             </div>
         </div>
-         
-        <img src="res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
-        <img src="res/art/LETS_NEGOTIATE.png" alt="">
-        <img src="res/art/Melencolia.png" alt="">
+         <div class="preview-container">
+            <img src="res/art/IT_KEEPS_GETTING_WORSE.png" alt="placeholder">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>IT KEEPS GETTING WORSE</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">AS LONG AS YOU BREATHE
+                        I WILL BE WITH YOU
+                        A CROOKED SHADOW
+                        A PAIN IN YOUR SCAR
+                        MORE THAN A MEMORY
+                        LESS THAN A PERSON
+                        A DREADFUL PRESENCE
+                        IN THE CORNER OF YOUR EYE</p>
+                    <p class="details">2023</p>
+                    <p class="details">Digital</p></div>
+            </div>
+         </div>
+        
+        
+        <div class="preview-container">
+            <img src="res/art/LETS_NEGOTIATE.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>LET'S NEGOTIATE</h2>
+                    <p class="subtitle">di7ide</p>
+                    <p class="details">A surrealist commentary on corporate conformity and the consuming nature of modern business culture, individuality and humanity are stripped away.</p>
+                    <p class="details">Digital</p></div>
+            </div>
+        </div>
+        
+        <!-- The image appears to be a surrealist commentary on corporate conformity and the consuming nature of modern business culture, where individuality and humanity are stripped away, leaving only the burning remains of identity in a standardized world. -->
+        <!-- di7ide -->
+        <div class="preview-container">
+            <img src="res/art/Melencolia.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>Melencolia</h2>
+                    <p class="subtitle">Micah Ulrich</p>
+                    <p class="details">Master study of Albrecht Dürer's piece of the same name</p>
+                    <p class="details">Digital illustration/ink</p></div>
+            </div>
+        </div>
         <div class="preview-container">
             <img src="/res/art/I_WILL_NEVER_LET_THIS_FEELING_GO.png" alt="">
             <div class="text-overlay">
@@ -378,23 +424,26 @@ img {
     <script src="https://cdn.jsdelivr.net/npm/baffle@0.3.6/dist/baffle.min.js"></script>
 
     <script>
-        //NOTE: THE GALLERY TEXT FADE IN AND OUT TIME NEEDS TO SCALE WITH HOW LONG THE TEXT IS
-        //HERE: ADJUST THIS TO MOVE THE MINI GALLERY FASTER OR SLOWER (HIGHER IS FASTER)
-        const SCALING_RATIO = 1.18;
 
-        const lenis = new Lenis();
+// Initialize Lenis for smooth scrolling
+const lenis = new Lenis();
+
+//HERE: Adjust this to control scroll speed ratio
+const SCALING_RATIO = 0.9;
+
+// Handle RAF for smooth scrolling
 function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
 
-// gsap.registerPlugin(ScrollToPlugin);
-
+// Get DOM elements
 const gallery = document.querySelector('.layout-2-gallery');
 const imgPreviews = document.querySelector('.img-previews');
 const minimap = document.querySelector('.minimap');
 
+// Create minimap highlight if it doesn't exist
 if (!minimap.querySelector('.minimap-highlight')) {
     const highlight = document.createElement('div');
     highlight.className = 'minimap-highlight';
@@ -412,14 +461,12 @@ function handleScroll() {
     const viewportHeight = window.innerHeight;
     const totalScrollHeight = imgPreviews.scrollHeight - viewportHeight;
     
-    // Calculate scroll progress as a ratio of how far through the previews we've scrolled
+    // Calculate scroll progress (0 to 1)
     const scrollProgress = window.scrollY / totalScrollHeight;
     const boundedProgress = Math.min(Math.max(scrollProgress, 0), 1);
     
-    // Calculate available travel space in minimap
+    // Move minimap highlight
     const availableMinimapTravel = minimapHeight - highlightHeight;
-    
-    // Move highlight
     const highlightY = boundedProgress * availableMinimapTravel;
     
     gsap.to(highlight, {
@@ -428,32 +475,34 @@ function handleScroll() {
         ease: "none"
     });
 
-    // Move gallery with same ratio
-    const galleryStart = viewportHeight * 0.25;
-    const maxTravel = viewportHeight * SCALING_RATIO;
-    const galleryY = galleryStart - (boundedProgress * maxTravel);
-
+    // Gallery movement
+    const initialOffset = 50; // How far up from center to start (in percentage)
+    const newY = (initialOffset - (boundedProgress * 100)*SCALING_RATIO) + '%';
+    
     gsap.to(gallery, {
-        y: galleryY,
+        y: newY,
         duration: 0.1,
         ease: "none"
     });
-
-    // Debug info
-    console.log({
-        scrollProgress,
-        highlightY,
-        totalHeight: imgPreviews.scrollHeight,
-        scrollY: window.scrollY
-    });
 }
 
-// Use only Lenis for smooth scrolling
+// Use Lenis for smooth scrolling
 lenis.on('scroll', handleScroll);
 
 // Initialize on load
 window.addEventListener('load', handleScroll);
 
+// Optional: Add debug logging
+function debugLog() {
+    console.log({
+        scrollY: window.scrollY,
+        galleryPos: gallery.getBoundingClientRect().top,
+        minimapPos: minimap.getBoundingClientRect().top
+    });
+}
+
+// Uncomment to enable debug logging
+// window.addEventListener('scroll', debugLog);
 //will need this for descriptions to pop up on view
 
 function isInViewport(element) {
@@ -504,9 +553,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 .start();
         });
         let subtractDelay = 0;
+
                 if (textLength > 400){
                     subtractDelay = 450;
                 }
+
         container.addEventListener('mouseleave', () => {
             if (typewriterInstance) {
                 // Delete all text quickly
