@@ -4,8 +4,8 @@
     <title>Kizovani - About</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <script type="module" crossorigin src="/assets/main-DspGy3FZ.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/main-D45yFEql.css">
+  <script type="module" crossorigin src="/assets/main-Ch_IRwmz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-uJhdVNNR.css">
 </head>
 <body>
     
@@ -32,13 +32,17 @@
                     <h2>About the Site</h2>
                     <p>Each page is a little different, so I will get into as much detail as I can about each one.</p>
                     <h3>Title page:</h3>
-                    <p>The main/landing page was built mostly using three.js for the main scene, with the model being <a href="https://sketchfab.com/3d-models/angel-17d22525b4124088a8827d9c45a2627f">just8's "Angel"</a> model lifted from sketchfab, since I really liked the way it looked. Unfortunately, I had to heavily reduce the original quality of the model (from about [PLACE ORIGINAL POLYGON COUNT HERE] to [NEW ONE HERE]). Then I used the ASCII effect in three.js to add a personal touch to it.</p>
+                    <p>The main/landing page was built mostly using three.js for the main scene, with the model being <a href="https://sketchfab.com/3d-models/angel-17d22525b4124088a8827d9c45a2627f">just8's "Angel"</a> model lifted from sketchfab, since I really liked the way it looked. Unfortunately, I had to heavily reduce the original quality of the model (from about one million polygons to about 1 percent of that). Then I used the ASCII effect in three.js to add a personal touch to it. Which also allowed for the model quality to be so low and load quicker since the effect drops the detail anyway. </p>
                     <p>I found the animation on its own to be a little too boring, so I added the light controls to add some more fun to it. The actual aninimation of the controls menu (the range slider and on/off switch) in and out of the view is done with GSAP, which I heard about before starting this project, so I wanted to try it out for myself.</p>
                     <p>Up next was the menu bar. I wanted to make this look unique yet still fit the theme, and lo and behold, the great Google algorithm saw I was interested in HTML, CSS, and the 'menu bar' keyword, so it decided to recommend me <a href="https://www.youtube.com/watch?v=Jc5fU2_8EE4&t=245s">this</a> video from codegrid, a Youtube channel I had never seen or heard of before. So I incorporated much of his work with some small tweaks to make it fit the theme better. I noticed he was also using GSAP, which was a happy accident and helped me learn a lot more about some use cases for it.</p>
                     <h3>Projects Page</h3>
                     <p>Then came my Projects page, I wasnt sure how I wanted this to look to be honest, but I knew I wanted it to obviously showcase some of the other fun projects I've done and some of the things I've learned along the way.</p>
                     <p>I ended up making those kind of cards you see, they were pretty simple, and done entirely in css although I cant remember the tutorial I followed, otherwise I would have also linked it here</p>
                     <p>Then of course comes the backround monster/worm/centipede thing in the backround, I was actually on instagram when a friend sent me this [INSERT LINK HERE] post, with the caption "you should put this on your website" so thats exactly what I did, apart from changing some starting conditions that code is entirely unaltered and full credits go to [INSERT NAME AND LINK HERE]</p>
+                    <h3>Art Page</h3>
+                    <p>I really wanted to try and make an image gallery of sorts, so I got a bunch of artworks I liked and got to work.</p>
+                    <p>setting up the actual gallery was not that diffucult, I wanted to get some smoother scrolling like I've seen on some other websites, I ended up stumbling upon <a href="https://lenis.darkroom.engineering/">Lenis</a>, which is a lightweight JavaScript library for creating smooth scrolling, I'm not entirely sure I used it to it's full potential but I think it looks better than the default scroll animation nonetheless.</p>
+                    <p>After that, I needed to add something more the the gallery to make it look cooler, it was too bare. While looking around I found another <a href="https://youtu.be/OFTiYCn8c1s?t=39">Codegrid video</a> that used a really cool minimap to show where in the gallery you were. I really loved this concept, I tried my best to emulate it using</p>
                     <h3>Info Page</h3>
                     <p>And then we finally arrive to this very info page, which even though its a bunch of text, was actually alot harder to get working the way I wanted with the baffle.js library (the library that scrambles/animates) the text, for some reason, the baffle effect completely removes links in the text, no clue why, I ended up having to read this entire info page, store it, and then repaste it over the effect when it completes, annoying, but sometimes you have to just make do.</p>
                 </section>
@@ -67,9 +71,9 @@
             <div class="menu-item" id="close-menu">close</div>
             <div class="menu-item"><a href="index.html">home</a></div>
             <div class="menu-item"><a href="projects.html">projects</a></div>
-            <div class="menu-item">art i like</div>
+            <div class="menu-item"><a href="art.html">art i like</a></div>
             <div class="menu-item"><a href="info.html">info</a></div>
-            <div class="menu-item">contact</div>
+            <div class="menu-item"><a href="contact.html">contact</a></div>
         </div>
     </div>
     <div class="marquee-container">

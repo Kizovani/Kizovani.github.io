@@ -1,0 +1,100 @@
+<!-- TODO: FIGURE OUT PHOTO STORAGE??? -->
+ <!-- epilepsy warning? -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Kizovani</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "../build/three.module.js",
+                "three/addons/": "./jsm/"
+            }
+        }
+    </script>
+  <script type="module" crossorigin src="/assets/main-BK-m9dCu.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/main-Ch_IRwmz.js">
+  <link rel="stylesheet" crossorigin href="/assets/main-uJhdVNNR.css">
+</head>
+
+<body>
+
+    <div class="nametag-container">
+        <div class="nametag">kizovani</div>
+    </div>
+
+    <div class="welcome-text-container">
+        <span class="welcome-text">X?/%6@</span>
+    </div>
+
+    <div id="three-js-container"></div>
+
+    <div id="open-circle" class="circle"></div>
+    
+<div id="controls-container">
+    <div id="close-circle" class="circle"></div>
+    <input type="range" id="light-rotation-slider" min="0" max="360" value="0">
+    <div class="button-container">
+        <input type="radio" id="ambient-light-off" name="ambient-light" value="off" class="toggle toggle-left" checked>
+        <label for="ambient-light-off" class="btn">Off</label>
+        <input type="radio" id="ambient-light-on" name="ambient-light" value="on" class="toggle toggle-right">
+        <label for="ambient-light-on" class="btn">On</label>
+    </div>
+    <div class="button-container">
+        <input type="radio" id="advanced-mode-off" name="advanced-mode" value="off" class="toggle toggle-left" checked>
+        <label for="advanced-mode-off" class="btn">Basic</label>
+        <input type="radio" id="advanced-mode-on" name="advanced-mode" value="on" class="toggle toggle-right">
+        <label for="advanced-mode-on" class="btn">Advanced</label>
+    </div>
+</div>
+
+<div class="basic/advanced-select-container">
+<!-- 
+here will be html that *might* be really similar to the menu-container hmtl, but will be for the user to choose between the "advanced-conntrols-container" and then "basic-controls-container"
+the advanced-conntrols-container will be like a terminal (I might even make this the default cause its so cool), with something like:
+Welcome to the Kizovani website dev console, type "help" or "h" for available commands 
+Kizovani@dev:~$
+the available commands can be:
+1.lighting controls, same as the scroll bar, just with text instead
+2.ambient-light toggle, same as before just with text
+3.model switching - maybe implement a way for a new model to be able to be loaded in, maybe even allowing for model uploads? - How the fuck would I handle that?? Maybe it would all be client side
+4.website color theme switching - allow the user to define two colors to use for the website instead?
+5.three.js ascii effect controls - allow them to set their own resolution, minimum distance, etc
+6.animation controls - pause/play , playback speed, etc
+7. enable the helpers from before
+8. ...
+ -->
+
+</div>
+
+    <div class="menu-container">
+        <div class="col col-1">
+            <div class="menu-item" id="menu-toggle">menu</div>
+        </div>
+        <div class="col col-2">
+            <div class="menu-item" id="close-menu">close</div>
+            <div class="menu-item"><a href="index.html">home</a></div>
+            <div class="menu-item"><a href="projects.html">projects</a></div>
+            <div class="menu-item"><a href="art.html">art i like</a></div>
+            <div class="menu-item"><a href="info.html">info</a></div>
+            <div class="menu-item"><a href="contact.html">contact</a></div>
+        </div>
+    </div>
+
+    <div class="marquee-container">
+        <div class="marquee">
+            home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home home 
+        </div>
+    </div>
+
+
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
+
+
+	</body>
+</html>

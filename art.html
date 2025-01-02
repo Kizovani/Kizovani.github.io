@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kizovani - Art</title>
+    <style>
+    /* Root variables for consistent scaling */
+/* Root variables for consistent scaling */
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    
+    /* Viewport-relative units for consistent scaling */
+    --gallery-width: clamp(75px, 5vw, 120px);
+    --preview-width: clamp(600px, 40vw, 900px);
+    --preview-height: clamp(500px, 70vh, 900px);
+    --thumbnail-height: clamp(90px, 10vh, 150px);
+    --minimap-width: clamp(180px, 12vw, 240px);
+    --minimap-height: clamp(100px, 15vh, 150px);
+    --text-base: clamp(14px, 1vw, 18px);
+    --text-large: clamp(20px, 1.5vw, 24px);
+    
+    --minimap-width-add: 170px; /* MAYBE MAKE THIS SCALE WITH VIEWPORT WIDTH?? */
+    /* --gallery-start-position: clamp(243px, 20vh, 300px) */
+
+}
+
+/* Keep original font faces */
+@font-face {
+    font-family: "Arame Mono";
+    src: url("/assets/ArameMono-BxO6foiL.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Hack-Regular";
+    src: url(/assets/Hack-Regular-D6rFOwSy.ttf);
+}
+
+@font-face {
+    font-family: "Hack-Bolditalic";
+    src: url(/assets/Hack-BoldItalic-iNZYSiHu.ttf);
+}
+
+@font-face {
+    font-family: "Hack-Italic";
+    src: url(/assets/Hack-Italic-DqkP-GBW.ttf);
+}
+
+@font-face {
+    font-family: "Hack-Bold";
+    src: url(/assets/Hack-Bold-CVmVTnBC.ttf);
+}
+
+/* Base styles */
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: "Arame Mono";
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Main preview section */
+.img-previews {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--preview-width);
+    padding-bottom: 50vh;
+}
+
+.img-preview-container {
+    position: relative;
+}
+
+.img-previews img {
+    width: 100%;
+    height: var(--preview-height);
+    object-fit: cover;
+    margin-bottom: 1em;
+}
+
+/* Gallery container */
+.gallery-container {
+    width: 100%;
+    height: 100%;
+    padding-top: clamp(2em, 4vh, 4em);
+}
+
+/* Side gallery */
+.gallery.layout-2-gallery {
+     position: fixed;
+    /* Position relative to center, then move up by desired offset */
+    top: 50%;
+    transform: translateY(-50%);
+    left: clamp(5%, 10%, 15%);
+    width: var(--gallery-width);
+    /* Better transition for scroll movement */
+    transition: transform 0.1s ease;
+    will-change: transform;
+}
+
+.gallery.layout-2-gallery .img {
+    width: 100%;
+    height: var(--thumbnail-height);
+    margin-bottom: 1em;
+    overflow: hidden;
+}
+
+.gallery.layout-2-gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Minimap */
+.minimap {
+    position: fixed;
+    top: 50%;
+    /* Position relative to gallery's left position */
+    left: clamp(5%, 10%, 15%);
+    transform: translateY(-50%);
+    width: calc(var(--gallery-width) + var(--minimap-width-add));
+    transform: translateX(calc((var(--minimap-width-add) / 2 * -1)));
+    height: var(--minimap-height);
+    border: 2px solid var(--white);
+    border-radius: 2px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.1);
+    pointer-events: none;
+    will-change: transform;
+    /* Add margin to align with gallery width */
+    /* margin-left: calc(var(--gallery-width) - clamp(3rem, 6vw, 6rem)); */
+}
+
+.minimap-highlight {
+    position: absolute;
+    width: 100%;
+    height: clamp(20px, 3vh, 30px);
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(0);
+}
+
+.minimap::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: clamp(20px, 3vh, 30px);
+    background: rgba(255, 255, 255, 0.4);
+    top: 0;
+    left: 0;
+    border-radius: 1px;
+}
+
+/* Lenis smooth scroll */
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
+/* Preview containers */
+.img-previews .preview-container {
+    position: relative;
+    width: 100%;
+    height: var(--preview-height);
+    margin-bottom: 1em;
+}
+
+.img-previews .preview-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Text overlay */
+.text-overlay {
+    position: absolute;
+    width: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.overlay-text {
+    color: black;
+    font-family: "Hack-Regular";
+    font-size: var(--text-base);
+    padding: clamp(20px, 2vw, 30px);
+    width: 100%;
+    border-radius: 4px;
+    z-index: 2;
+    white-space: pre-line;
+    line-height: 0.8;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    :root {
+        --preview-width: 90vw;
+        --gallery-width: clamp(50px, 4vw, 75px);
+    }
+    
+    .gallery.layout-2-gallery {
+        left: 2%;
+    }
+}
+
+@media (min-width: 2560px) {
+    :root {
+        --text-base: clamp(16px, 0.8vw, 20px);
+        --text-large: clamp(24px, 1.2vw, 32px);
+    }
+}
+    </style>
+  <script type="module" crossorigin src="/assets/main-Ch_IRwmz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-uJhdVNNR.css">
+</head>
+<body>
+    <div class="gallery-container">
+        <div class="gallery layout-2-gallery">
+            <div class="img" id="img1">
+                <img src="/assets/fallen_angel-Ca8zgW3p.jpg" alt="fallen_angel">
+            </div>
+            <div class="img" id="img2">
+                <img src="/assets/I_LAUGH_BECAUSE_I_AM_WEAK-BqPB7DWQ.png" alt="fallen_angel">
+            </div>
+            <div class="img" id="img3">
+                <img src="/assets/I'M_IN_HELL-DaW3Bb9h.png" alt="wolf">
+            </div>
+            <div class="img" id="img4">
+                <img src="/assets/IT_KEEPS_GETTING_WORSE-Bc4v-Lxj.png" alt="placeholder">
+            </div>
+            <div class="img" id="img5">
+                <img src="/assets/LETS_NEGOTIATE-lto7H91w.png" alt="placeholder">
+            </div>
+            <div class="img" id="img6">
+                <img src="/assets/Melencolia-UKai2yub.png" alt="placeholder">
+            </div>
+            <div class="img" id="img7">
+                <img src="/assets/I_WILL_NEVER_LET_THIS_FEELING_GO-BzvwKUT7.png" alt="placeholder">
+            </div>
+            <!-- <div class="img" id="img8">
+                <img src="res/art/TEST.png" alt="placeholder">
+            </div> -->
+            <div class="img" id="img9">
+                <img src="/assets/The_Agression_Sessions-DEvmKh7U.png" alt="placeholder">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="minimap"></div>
+
+    <div class="img-previews">
+        <div class="preview-container">
+            <img src="/assets/fallen_angel-Ca8zgW3p.jpg" alt="fallen_angel">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>The Fallen Angel</h2>
+                    <p class="subtitle">(L'ange déchu)</p>
+                    <p class="details">(French, 1823-1889)</p>
+                    <p class="details">Alexandre Cabanel</p>
+                    <p class="details">1847</p>
+                    <p class="details">Oil on canvas</p></div>
+            </div>
+        </div>
+        <div class="preview-container">
+            <img src="/assets/I_LAUGH_BECAUSE_I_AM_WEAK-BqPB7DWQ.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>I LAUGH BECAUSE I AM WEAK</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">I LAUGH UNTIL IT HURTS
+                        UNTIL THE CHORTLES RUNNING UP MY SIDES
+                        FORCE MY MUSCLES TO TWITCH AND TICKLE
+                        THE BLADE BETWEEN MY SHOULDERS
+                        AND AS HOT BETRAYAL RUNS
+                        FROM MY MOUTH TO MY HANDS
+                        I LAUGH
+                        BECAUSE I AM WEAK</p>
+                    <p class="details">2022</p>
+                    <p class="details">Digital</p></div>
+            </div>
+        </div>
+        <div class="preview-container">
+            <img src="/assets/I'M_IN_HELL-DaW3Bb9h.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>I'M IN HELL</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">I DESERVE TO BE IN PUNISHED
+                        FOR WHAT I’VE DONE
+                        EVERY COLD BLOODED DECISION
+                        HAS LEAD ME HERE
+                        AND I WOULDN’T CHANGE ANYTHING
+                        EVEN IF I COULD BE FORGIVEN
+                        I WOULD MAKE IT WORSE
+                        I WOULD DO IT AGAIN</p>
+                    <p class="details">2023</p>
+                    <p class="details">Digital</p></div>
+            </div>
+        </div>
+         <div class="preview-container">
+            <img src="/assets/IT_KEEPS_GETTING_WORSE-Bc4v-Lxj.png" alt="placeholder">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>IT KEEPS GETTING WORSE</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">AS LONG AS YOU BREATHE
+                        I WILL BE WITH YOU
+                        A CROOKED SHADOW
+                        A PAIN IN YOUR SCAR
+                        MORE THAN A MEMORY
+                        LESS THAN A PERSON
+                        A DREADFUL PRESENCE
+                        IN THE CORNER OF YOUR EYE</p>
+                    <p class="details">2023</p>
+                    <p class="details">Digital</p></div>
+            </div>
+         </div>
+        
+        
+        <div class="preview-container">
+            <img src="/assets/LETS_NEGOTIATE-lto7H91w.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>LET'S NEGOTIATE</h2>
+                    <p class="subtitle">di7ide</p>
+                    <p class="details">A surrealist commentary on corporate conformity and the consuming nature of modern business culture, individuality and humanity are stripped away.</p>
+                    <p class="details">Digital</p></div>
+            </div>
+        </div>
+        <div class="preview-container">
+            <img src="/assets/Melencolia-UKai2yub.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>Melencolia</h2>
+                    <p class="subtitle">Micah Ulrich</p>
+                    <p class="details">Master study of Albrecht Dürer's piece of the same name</p>
+                    <p class="details">Digital illustration/ink</p></div>
+            </div>
+        </div>
+        <div class="preview-container">
+            <img src="/assets/I_WILL_NEVER_LET_THIS_FEELING_GO-BzvwKUT7.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>I WILL NEVER LET THIS FEELING GO</h2>
+                    <p class="subtitle">Pitch Canker</p>
+                    <p class="details">I AM IN LOVE
+                        WITH MY ILLNESS
+                        MANIC
+                        AND HOWLING AT THE SUN
+                        I WAS RAISED BY BEDLAM
+                        I AM A BROTHER TO MAYHEM
+                        I WILL ROLL MY DROOLING JAWS
+                        I WILL DIG AT STONE WITH CLAWS</p>
+                    <p class="details">2023</p>
+                    <p class="details">Digital</p></div>
+                </div>
+        </div>
+        <!-- <img src="res/art/TEST.png" alt=""> -->
+         <div class="preview-container">
+            <img src="/assets/The_Agression_Sessions-DEvmKh7U.png" alt="">
+            <div class="text-overlay">
+                <div class="overlay-text">
+                    <h2>The Agression Sessions</h2>
+                    <p class="subtitle">Eliran Kantor</p>
+                    <p class="details">figures locked in a violent embrace that speaks to humanity's ancient battle with nature</p>
+         </div>
+    </div>
+
+    <div class="menu-container">
+        <div class="col col-1">
+            <div class="menu-item" id="menu-toggle">menu</div>
+        </div>
+        <div class="col col-2">
+            <div class="menu-item" id="close-menu">close</div>
+            <div class="menu-item"><a href="index.html">home</a></div>
+            <div class="menu-item"><a href="projects.html">projects</a></div>
+            <div class="menu-item"><a href="art.html">art i like</a></div>
+            <div class="menu-item"><a href="info.html">info</a></div>
+            <div class="menu-item"><a href="contact.html">contact</a></div>
+        </div>
+    </div>
+    <div class="marquee-container">
+        <div class="marquee">
+            projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects projects
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.1/gsap.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+
+    <!-- typewriter-effect I might use -->
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Flip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/baffle@0.3.6/dist/baffle.min.js"></script>
+
+    <script>
+
+// Initialize Lenis for smooth scrolling
+const lenis = new Lenis();
+
+//HERE: Adjust this to control scroll speed ratio
+const SCALING_RATIO = 0.9;
+
+// Handle RAF for smooth scrolling
+function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
+
+// Get DOM elements
+const gallery = document.querySelector('.layout-2-gallery');
+const imgPreviews = document.querySelector('.img-previews');
+const minimap = document.querySelector('.minimap');
+
+// Create minimap highlight if it doesn't exist
+if (!minimap.querySelector('.minimap-highlight')) {
+    const highlight = document.createElement('div');
+    highlight.className = 'minimap-highlight';
+    minimap.appendChild(highlight);
+}
+
+function handleScroll() {
+    // Get the highlight element
+    const highlight = minimap.querySelector('.minimap-highlight');
+    
+    // Get dimensions
+    const previewsRect = imgPreviews.getBoundingClientRect();
+    const minimapHeight = minimap.offsetHeight;
+    const highlightHeight = highlight.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const totalScrollHeight = imgPreviews.scrollHeight - viewportHeight;
+    
+    // Calculate scroll progress (0 to 1)
+    const scrollProgress = window.scrollY / totalScrollHeight;
+    const boundedProgress = Math.min(Math.max(scrollProgress, 0), 1);
+    
+    // Move minimap highlight
+    const availableMinimapTravel = minimapHeight - highlightHeight;
+    const highlightY = boundedProgress * availableMinimapTravel;
+    
+    gsap.to(highlight, {
+        y: highlightY,
+        duration: 0.1,
+        ease: "none"
+    });
+
+    // Gallery movement
+    const initialOffset = 50; // How far up from center to start (in percentage)
+    const newY = (initialOffset - (boundedProgress * 100)*SCALING_RATIO) + '%';
+    
+    gsap.to(gallery, {
+        y: newY,
+        duration: 0.1,
+        ease: "none"
+    });
+}
+
+// Use Lenis for smooth scrolling
+lenis.on('scroll', handleScroll);
+
+// Initialize on load
+window.addEventListener('load', handleScroll);
+
+// Optional: Add debug logging
+function debugLog() {
+    console.log({
+        scrollY: window.scrollY,
+        galleryPos: gallery.getBoundingClientRect().top,
+        minimapPos: minimap.getBoundingClientRect().top
+    });
+}
+
+// Uncomment to enable debug logging
+// window.addEventListener('scroll', debugLog);
+//will need this for descriptions to pop up on view
+
+function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+//TESTING AREA:
+
+//wait for page to load
+document.addEventListener('DOMContentLoaded', () => {
+    //get all the images
+    const previewContainers = document.querySelectorAll('.preview-container');
+    //for each image
+    previewContainers.forEach((container) => {
+        //define the text overlay(box containing everything) and the text element(actual text)
+        const textOverlay = container.querySelector('.text-overlay');
+        const textElement = container.querySelector('.overlay-text');
+        const originalHtml = textElement.innerHTML; //to store the actual html for counting length
+        
+        const textLength = textElement.textContent.length;
+
+        let typewriterInstance = null;
+        
+        //when the mouse enters a preview container
+        container.addEventListener('mouseenter', () => {
+            // Show overlay
+            textOverlay.style.opacity = '1';
+            
+            // Clear text
+            textElement.innerHTML = '';
+            
+            // Create new typewriter instance
+            typewriterInstance = new Typewriter(textElement, {
+                delay: 0.01,//typewriter speed
+                cursor: '',//no cursor, didnt look that good
+                html: true
+            });
+            
+            // Type out text
+            typewriterInstance
+                .typeString(originalHtml)
+                .start();
+        });
+        let subtractDelay = 0;
+
+                if (textLength > 400){
+                    subtractDelay = 450;
+                }
+
+        container.addEventListener('mouseleave', () => {
+            if (typewriterInstance) {
+                // Delete all text quickly
+                typewriterInstance
+                    .deleteAll(0.1)
+                    .start();
+                    setTimeout(() => {
+                        // Fade out overlay as text deletes
+                        textOverlay.style.opacity = '0';
+                        //HERE: ADJUST THE TIME HERE TO GIVE THE TEXT TIME TO DELETE BEFORE THE OVERLAY FADES
+                        //NOTE: ON LONG TEXTS (like some of the pitch canker ones) it takes a little too long for the fadeaway,
+                        //scaling probably needs to be adjusted, idk how though
+                    }, 5*textLength + subtractDelay);
+                
+                
+                
+                // Reset after fade
+                setTimeout(() => {
+                    if (typewriterInstance) {
+                        typewriterInstance.stop();
+                        typewriterInstance = null;
+                    }
+                    textElement.innerHTML = originalHtml;
+                    //HERE: TIME AFTER FADE ANIMATION FOR TYPEWRITER TO DIE
+                    //WARNING: IF TOO SHORT, THE TEXT WILL FLASH BEFORE IT IS DELETED 300ms to account should be enough
+                    
+                }, 5*textLength + subtractDelay + 300);
+            }
+        });
+    });
+});
+    </script>
+</body>
+</html>
