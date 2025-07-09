@@ -463,6 +463,11 @@ input[type="range"] {
   padding-top: 3%;
   transform: scale(120%);
 }
+.framemonkey-icon {
+  padding-left: 3%;
+  padding-top: 3%;
+  transform: scale(200%);
+}
 
 .info-text-wall-container {
   font-family: "Hack-Regular";
@@ -493,4 +498,16 @@ margin-top: 15px;
   height: 100%;
   z-index: -1;
   /* filter: blur(5px); ill leave this here in case I want to blur it */
+}
+
+.animal-names-banner {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding: 10px;
+  font-size: 1.2em;
+  color: #fff;
+  z-index: 1;
 }

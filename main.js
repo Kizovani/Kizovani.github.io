@@ -420,4 +420,3 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("No specific page found");
   }
 });
-
