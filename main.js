@@ -1,422 +1,485 @@
-// TODO:
-  // maybe add a text where if they spin him around very rapidly he says something like "im getting dizzy"
-  // and then the second time something like please stop im going to throw up
-  // and then maybe a throw up effect? But like idk if I can make it cooler/different from the konami code?!?!?!?
-  // ideas for how to do above:
-  // log camera coords, if the change in camera coords is too drastic too fast, trigger
-  // or I could detect mouse movement and if when the user is holding and dragging left click too fast it triggers that way, I feel like that could be easier/more reliable, but idk if there
-  //even is a way to detect mouse "velocity"
-  // konami code can just be the baffle effect everywhere and then atr the end its the ultron quote "youve wounded me, full marks for that" (or some fuck shit like that)
-  //maybe incorporate a quote of the day thing, after all the intro messages he says like "Todays quote of the day is:", just worried its going to be too much text for some of the larger quotes
+// main.js - Vite-compatible approach
+import './main.css';
 
-// Shared functionality
-import baffle from 'baffle';
+// Import everything at the top level
+import $ from 'jquery';
+import 'jquery.terminal/css/jquery.terminal.min.css';
 import { gsap } from 'gsap';
 
-// Menu functionality
+// Make jQuery globally available IMMEDIATELY
+window.$ = window.jQuery = $;
+
+// Direct script loading approach for jQuery Terminal
+function loadJQueryTerminal() {
+    return new Promise((resolve, reject) => {
+        // Check if already loaded
+        if (typeof $.fn.terminal !== 'undefined') {
+            resolve();
+            return;
+        }
+
+        // Create script element
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/jquery.terminal@2.x.x/js/jquery.terminal.min.js';
+        script.onload = () => {
+            console.log('jQuery Terminal loaded via CDN');
+            resolve();
+        };
+        script.onerror = () => {
+            reject(new Error('Failed to load jQuery Terminal'));
+        };
+        
+        document.head.appendChild(script);
+    });
+}
+
+// Initialize everything after terminal is loaded
+async function initializeTerminal() {
+    try {
+        await loadJQueryTerminal();
+        
+        console.log('jQuery available:', typeof $ !== 'undefined');
+        console.log('Terminal plugin available:', typeof $.fn.terminal !== 'undefined');
+        
+        if (typeof $.fn.terminal === 'undefined') {
+            console.error('Terminal plugin still not available');
+            return;
+        }
+
+        // Terminal commands
+        const terminalCommands = {
+            help: function() {
+                this.echo('Available commands:\n' +
+                         '[[;cyan;]help] - Show this help\n' +
+                         '[[;cyan;]lighting] <0-360> - Set light rotation\n' +
+                         '[[;cyan;]ambient] <on|off> - Toggle ambient light\n' +
+                         '[[;cyan;]theme] <color1> <color2> - Set color theme\n' +
+                         '[[;cyan;]clear] - Clear terminal\n' +
+                         '[[;cyan;]exit] - Close terminal');
+            },
+            h: function() {
+                this.exec('help');
+            },
+            lighting: function(value) {
+                const slider = document.getElementById('light-rotation-slider');
+                if (!slider) {
+                    this.echo('[[;red;]Error: Light rotation slider not found]');
+                    return;
+                }
+                
+                if (value === undefined) {
+                    this.echo('Current light rotation: [[;yellow;]' + slider.value + '°]');
+                    return;
+                }
+                
+                const val = parseInt(value);
+                if (isNaN(val) || val < 0 || val > 360) {
+                    this.echo('[[;red;]Error: Please provide a value between 0-360]');
+                    return;
+                }
+                
+                slider.value = val;
+                slider.dispatchEvent(new Event('input'));
+                this.echo('Light rotation set to [[;green;]' + val + '°]');
+            },
+            ambient: function(state) {
+                const onButton = document.getElementById('ambient-light-on');
+                const offButton = document.getElementById('ambient-light-off');
+                
+                if (!onButton || !offButton) {
+                    this.echo('[[;red;]Error: Ambient light controls not found]');
+                    return;
+                }
+                
+                if (state === undefined) {
+                    const isOn = onButton.checked;
+                    this.echo('Ambient light is [[;yellow;]' + (isOn ? 'on' : 'off') + ']');
+                    return;
+                }
+                
+                if (state === 'on') {
+                    onButton.checked = true;
+                    onButton.dispatchEvent(new Event('change'));
+                    this.echo('Ambient light [[;green;]turned on]');
+                } else if (state === 'off') {
+                    offButton.checked = true;
+                    offButton.dispatchEvent(new Event('change'));
+                    this.echo('Ambient light [[;yellow;]turned off]');
+                } else {
+                    this.echo('[[;red;]Error: Use "on" or "off"]');
+                }
+            },
+            theme: function(color1, color2) {
+                if (!color1 || !color2) {
+                    this.echo('[[;red;]Error: Please provide two colors (e.g., theme #ff0000 #00ff00)]');
+                    return;
+                }
+                
+                const hexPattern = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+                if (!hexPattern.test(color1) || !hexPattern.test(color2)) {
+                    this.echo('[[;red;]Error: Please use valid hex colors (e.g., #ff0000)]');
+                    return;
+                }
+                
+                document.documentElement.style.setProperty('--white', color1);
+                document.documentElement.style.setProperty('--black', color2);
+                this.echo('Theme updated with colors: [[;' + color1 + ';]' + color1 + '] and [[;' + color2 + ';]' + color2 + ']');
+            },
+            clear: function() {
+                this.clear();
+            },
+            exit: function() {
+                const terminalContainer = document.getElementById('terminal-container');
+                const advancedModeOff = document.getElementById('advanced-mode-off');
+                
+                if (terminalContainer) {
+                    terminalContainer.style.display = 'none';
+                }
+                if (advancedModeOff) {
+                    advancedModeOff.checked = true;
+                }
+                
+                this.echo('[[;green;]Terminal closed]');
+            }
+        };
+
+        // Initialize the terminal
+        const term = $('#terminal').terminal(terminalCommands, {
+            greetings: `[[;#00ff00;]
+ _  ___                             _ 
+| |/ (_)                           (_)
+| ' / _ ______ ___   ____ _ _ __  _ _ 
+|  < | |_  / _ \\ \\ / / _\` | '_ \\| | |
+| . \\| |/ / (_) \\ V / (_| | | | | | |
+|_|\\_\\_/___\\___/ \\_/ \\__,_|_| |_|_|_|
+]
+[[;white;]Welcome to the Kizovani website dev console]
+[[;gray;]Type "help" or "h" for available commands]`,
+            prompt: '[[;#00ff00;]Kizovani@dev][[;white;]:~$ ]',
+            height: '100%',
+            width: '100%',
+            checkArity: false,
+            completion: Object.keys(terminalCommands),
+            keymap: {
+                'ESC': function() {
+                    this.exec('exit');
+                }
+            }
+        });
+
+        // Terminal toggle functionality
+        const advancedModeOn = document.getElementById('advanced-mode-on');
+        const advancedModeOff = document.getElementById('advanced-mode-off');
+        const terminalContainer = document.getElementById('terminal-container');
+
+        if (advancedModeOn && terminalContainer) {
+            advancedModeOn.addEventListener('change', function() {
+                if (this.checked) {
+                    terminalContainer.style.display = 'block';
+                    term.focus();
+                }
+            });
+        }
+
+        if (advancedModeOff && terminalContainer) {
+            advancedModeOff.addEventListener('change', function() {
+                if (this.checked) {
+                    terminalContainer.style.display = 'none';
+                }
+            });
+        }
+
+        console.log('Terminal initialized successfully');
+        
+    } catch (error) {
+        console.error('Terminal initialization failed:', error);
+    }
+}
+
+// Your existing functions
 function initMenu() {
-  const tl = gsap.timeline({ paused: true });
+    const tl = gsap.timeline({ paused: true });
 
-  function revealMenu() {
-    revealMenuItems();
-    const toggleBtn = document.getElementById("menu-toggle");
-    const closeBtn = document.getElementById("close-menu");
-    toggleBtn.onclick = function (e) {
-      tl.reversed(!tl.reversed());
-    };
-    closeBtn.onclick = function (e) {
-      tl.reversed(!tl.reversed());
-    };
-  }
+    function revealMenu() {
+        revealMenuItems();
+        const toggleBtn = document.getElementById("menu-toggle");
+        const closeBtn = document.getElementById("close-menu");
+        if (toggleBtn) {
+            toggleBtn.onclick = function (e) {
+                tl.reversed(!tl.reversed());
+            };
+        }
+        if (closeBtn) {
+            closeBtn.onclick = function (e) {
+                tl.reversed(!tl.reversed());
+            };
+        }
+    }
 
-  function revealMenuItems() {
-    tl.to(".menu-container", 0.01, {
-      height: "205px",
-    });
+    function revealMenuItems() {
+        tl.to(".menu-container", 0.01, {
+            height: "205px",
+        });
 
-    tl.to(".col-1", 1, {
-      left: "-200px",
-      ease: "power4.inOut",
-    });
+        tl.to(".col-1", 1, {
+            left: "-200px",
+            ease: "power4.inOut",
+        });
 
-    tl.to(
-      ".col-2",
-      0.025,
-      {
-        left: "0px",
-        ease: "power4.inOut",
-      },
-      "<"
-    );
+        tl.to(
+            ".col-2",
+            0.025,
+            {
+                left: "0px",
+                ease: "power4.inOut",
+            },
+            "<"
+        );
 
-    tl.to(
-      ".col-2 > .menu-item",
-      1,
-      {
-        left: 0,
-        ease: "power4.inOut",
-        stagger: {
-          amount: 0.35,
-        },
-      },
-      "<"
-    ).reverse();
-  }
+        tl.to(
+            ".col-2 > .menu-item",
+            1,
+            {
+                left: 0,
+                ease: "power4.inOut",
+                stagger: {
+                    amount: 0.35,
+                },
+            },
+            "<"
+        ).reverse();
+    }
 
-  revealMenu();
+    revealMenu();
 }
 
-// Marquee functionality
 function initMarquee() {
-  gsap.to(".marquee", {
-    x: "-25%",
-    duration: 10,
-    ease: "none",
-    repeat: -1,
-    yoyo: true,
-  });
-
-  let menuContainer = document.querySelector(".menu-container");
-  let marqueeContainer = document.querySelector(".marquee-container");
-  let marqueeText = document.querySelector(".marquee");
-  let isInsideMenuContainer = false;
-
-  menuContainer.addEventListener("mouseenter", function () {
-    isInsideMenuContainer = true;
-    marqueeContainer.style.display = "block";
-  });
-
-  menuContainer.addEventListener("mousemove", function (event) {
-    if (isInsideMenuContainer) {
-      marqueeContainer.style.display = "block";
-      let pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
-      let pageYOffset = window.pageYOffset || document.documentElement.scrollTop;
-
-      let cursorX = event.clientX + pageXOffset;
-      let cursorY = event.clientY + pageYOffset;
-      let containerX = cursorX - marqueeContainer.offsetWidth / 2;
-      let containerY = cursorY - marqueeContainer.offsetHeight / 2;
-
-      gsap.to(marqueeContainer, {
-        scale: 1,
-        left: containerX + 25,
-        top: containerY,
-        duration: 0.2,
-        ease: "power3.out",
-      });
-
-      let hoveredMenuItem = event.target.closest(".menu-item");
-      if (hoveredMenuItem) {
-        let hoveredText = hoveredMenuItem.textContent.trim();
-        let marqueeContent = (hoveredText + " ").repeat(24);
-        marqueeText.innerHTML = marqueeContent.replace(/\s/g, "&nbsp;");
-      }
-    }
-  });
-
-  menuContainer.addEventListener("mouseleave", function () {
-    isInsideMenuContainer = false;
-    gsap.to(marqueeContainer, {
-      scale: 0,
-      duration: 0.2,
-      ease: "power3.out",
-      onComplete: function () {
-        marqueeContainer.style.display = "none";
-      },
+    gsap.to(".marquee", {
+        x: "-25%",
+        duration: 10,
+        ease: "none",
+        repeat: -1,
+        yoyo: true,
     });
 
-    let marqueeContent = ("home" + " ").repeat(24);
-    marqueeText.innerHTML = marqueeContent.replace(/\s/g, "&nbsp;");
-  });
+    let menuContainer = document.querySelector(".menu-container");
+    let marqueeContainer = document.querySelector(".marquee-container");
+    let marqueeText = document.querySelector(".marquee");
+    let isInsideMenuContainer = false;
+
+    if (menuContainer && marqueeContainer && marqueeText) {
+        menuContainer.addEventListener("mouseenter", function () {
+            isInsideMenuContainer = true;
+            marqueeContainer.style.display = "block";
+        });
+
+        menuContainer.addEventListener("mousemove", function (event) {
+            if (isInsideMenuContainer) {
+                marqueeContainer.style.display = "block";
+                let pageXOffset = window.pageXOffset || document.documentElement.scrollLeft;
+                let pageYOffset = window.pageYOffset || document.documentElement.scrollTop;
+
+                let cursorX = event.clientX + pageXOffset;
+                let cursorY = event.clientY + pageYOffset;
+                let containerX = cursorX - marqueeContainer.offsetWidth / 2;
+                let containerY = cursorY - marqueeContainer.offsetHeight / 2;
+
+                gsap.to(marqueeContainer, {
+                    scale: 1,
+                    left: containerX + 25,
+                    top: containerY,
+                    duration: 0.2,
+                    ease: "power3.out",
+                });
+
+                let hoveredMenuItem = event.target.closest(".menu-item");
+                if (hoveredMenuItem) {
+                    let hoveredText = hoveredMenuItem.textContent.trim();
+                    let marqueeContent = (hoveredText + " ").repeat(24);
+                    marqueeText.innerHTML = marqueeContent.replace(/\s/g, "&nbsp;");
+                }
+            }
+        });
+
+        menuContainer.addEventListener("mouseleave", function () {
+            isInsideMenuContainer = false;
+            gsap.to(marqueeContainer, {
+                scale: 0,
+                duration: 0.2,
+                ease: "power3.out",
+                onComplete: function () {
+                    marqueeContainer.style.display = "none";
+                },
+            });
+
+            let marqueeContent = ("home" + " ").repeat(24);
+            marqueeText.innerHTML = marqueeContent.replace(/\s/g, "&nbsp;");
+        });
+    }
 }
 
-// Page-specific functionality
+function initControlCircles() {
+    const openCircle = document.getElementById('open-circle');
+    const closeCircle = document.getElementById('close-circle');
+    const controlsContainer = document.getElementById('controls-container');
 
-// Home page
-function initHomePage() {
-  const messages = [
-    { content: "Welcome", duration: 4000 },
-    { content: "move me using your mouse", duration: 3000 },
-    { content: "drag with left and right click for rotation and position", duration: 5000 },
-    { content: "zoom using the scroll wheel", duration: 4000 },
-    { content: "you can also play with my lighting effects..", duration: 5000 },
-    { content: "using the scroll bar for light rotation", duration: 5000 },
-    { content: "and the switch for ambient light", duration: 5000 },
-    { content: "check out the menu for more", duration: 4000 }
-  ];
+    if (openCircle && closeCircle && controlsContainer) {
+        gsap.set(controlsContainer, { y: '100%' });
 
-  let currentIndex = 0;
-  let baffleEffect = baffle('.welcome-text', {
+        openCircle.addEventListener('click', () => {
+            gsap.to(openCircle, { 
+                y: 100, 
+                opacity: 0, 
+                duration: 0.5, 
+                onComplete: () => {
+                    openCircle.style.display = 'none';
+                }
+            });
+            gsap.to(controlsContainer, { 
+                y: '0%', 
+                duration: 0.5, 
+                ease: 'power2.out'
+            });
+        });
 
-    characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
-    speed: 70,
-  });
+        closeCircle.addEventListener('click', () => {
+            gsap.to(controlsContainer, { 
+                y: '100%', 
+                duration: 0.5, 
+                ease: 'power2.in',
+                onComplete: () => {
+                    openCircle.style.display = 'block';
+                    gsap.to(openCircle, { y: 0, opacity: 1, duration: 0.5 });
+                }
+            });
+        });
 
-  function displayNextMessage() {
-    if (currentIndex >= messages.length) {
-      handleEndOfMessages();
-      return;
+        [openCircle, closeCircle].forEach(circle => {
+            circle.addEventListener('mouseenter', () => {
+                gsap.to(circle, { scale: 1.25, duration: 0.2 });
+            });
+            circle.addEventListener('mouseleave', () => {
+                gsap.to(circle, { scale: 1, duration: 0.2 });
+            });
+        });
     }
-
-    const currentMessage = messages[currentIndex];
-    baffleEffect.start();
-    baffleEffect.text(() => currentMessage.content).reveal(1500);
-
-    currentIndex++;
-
-    setTimeout(() => {
-      if (currentIndex < messages.length) {
-        displayNextMessage();
-      } else {
-        handleEndOfMessages();
-      }
-    }, currentMessage.duration);
-  }
-
-  function handleEndOfMessages() {
-    console.log("all messages displayed");
-
-    //make it so the text animates on the way out of existance
-    const welcomeText = document.querySelector('.welcome-text');
-    const timeToTextDissapear = 4000;
-    const timeToBaffleBeforeDissapear = 3500;
-    setTimeout(() => {
-      baffleEffect.start();
-    }, timeToBaffleBeforeDissapear);
-    setTimeout(() => {
-      welcomeText.style.display = 'none';
-    }, timeToTextDissapear);
-
-    const jokeTimeout = 120000; // 2 minute delay before joke
-    setTimeout(() => {
-      baffleEffect.start();
-      welcomeText.style.display = 'inline-block';
-      baffleEffect.text(() => "why are you still here?").reveal(1000);
-    }, jokeTimeout);
-  }
-
-  window.addEventListener('modelLoaded', function() {
-    const initialDelay = 4700; // 4.7 second delay before anything else happens after model is loaded
-    setTimeout(function(){
-      const welcomeText = document.querySelector('.welcome-text');
-      welcomeText.style.display = 'inline-block';
-      displayNextMessage();
-    }, initialDelay);
-  });
-
-  let nametag = baffle('.nametag', {
-
-    characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
-    speed: 70,
-  });
-
-  nametag.start();
-  setTimeout(() => {
-    const welcomeText = document.querySelector('.nametag');
-    welcomeText.style.display = 'inline-block';
-  }, 60);
-
-  window.addEventListener('modelLoaded', function() {
-    nametag.reveal(5000, 2000);
-  });
 }
 
-//new reveal
-document.addEventListener('DOMContentLoaded', function() {
-  const openCircle = document.getElementById('open-circle');
-  const closeCircle = document.getElementById('close-circle');
-  const controlsContainer = document.getElementById('controls-container');
-
-  // Initial state: hide controls container
-  gsap.set(controlsContainer, { y: '100%' });
-
-  openCircle.addEventListener('click', () => {
-    gsap.to(openCircle, { 
-      y: 100, 
-      opacity: 0, 
-      duration: 0.5, 
-      onComplete: () => {
-        openCircle.style.display = 'none';
-      }
-    });
-    gsap.to(controlsContainer, { 
-      y: '0%', 
-      duration: 0.5, 
-      ease: 'power2.out'
-    });
-  });
-
-  closeCircle.addEventListener('click', () => {
-    gsap.to(controlsContainer, { 
-      y: '100%', 
-      duration: 0.5, 
-      ease: 'power2.in',
-      onComplete: () => {
-        openCircle.style.display = 'block';
-        gsap.to(openCircle, { y: 0, opacity: 1, duration: 0.5 });
-      }
-    });
-  });
-
-  // Hover effect for circles
-  [openCircle, closeCircle].forEach(circle => {
-    circle.addEventListener('mouseenter', () => {
-      gsap.to(circle, { scale: 1.25, duration: 0.2 });
-    });
-    circle.addEventListener('mouseleave', () => {
-      gsap.to(circle, { scale: 1, duration: 0.2 });
-    });
-  });
-
-  // Debug: Log elements to ensure they're found
-  console.log('Open Circle:', openCircle);
-  console.log('Close Circle:', closeCircle);
-  console.log('Controls Container:', controlsContainer);
-});
-
-
-// //im pretty sure this is reveal functionality:
-
-// document.addEventListener('DOMContentLoaded', function() {
-//   // Create a circle element
-//   const circle = document.createElement('div');
-//   circle.id = 'control-toggle';
-//   circle.style.cssText = `
-//     position: fixed;
-//     bottom: 20px;
-//     left: 20px;
-//     width: 40px;
-//     height: 40px;
-//     border-radius: 50%;
-//     background-color: var(--accent);
-//     cursor: pointer;
-//     z-index: 2001;
-//   `;
-//   document.body.appendChild(circle);
-
-//   // Get the controls container
-//   const controlsContainer = document.querySelector('.controls-container');
-
-//   // Initial animation to move controls out of view
-//   gsap.to(controlsContainer, {
-//     y: '155%',
-//     duration: 0.5,
-//     ease: 'power2.inOut'
-//   });
-
-//   // Variables to track hover state and animation
-//   let isHovering = false;
-//   let animation;
-
-//   // Function to show controls
-//   function showControls() {
-//     if (animation) animation.kill();
-//     animation = gsap.to(controlsContainer, {
-//       y: '0%',
-//       duration: 0.5,
-//       ease: 'power2.out'
-//     });
-//   }
-
-//   // Function to hide controls
-//   function hideControls() {
-//     if (animation) animation.kill();
-//     animation = gsap.to(controlsContainer, {
-//       y: '100%',
-//       duration: 0.5,
-//       ease: 'power2.in'
-//     });
-//   }
-
-//   // Event listeners for circle
-//   circle.addEventListener('mouseenter', () => {
-//     isHovering = true;
-//     showControls();
-//   });
-
-//   circle.addEventListener('mouseleave', () => {
-//     isHovering = false;
-//     setTimeout(() => {
-//       if (!isHovering) hideControls();
-//     }, 300); // Small delay to prevent immediate hiding
-//   });
-
-//   // Event listeners for controls container
-//   controlsContainer.addEventListener('mouseenter', () => {
-//     isHovering = true;
-//   });
-
-//   controlsContainer.addEventListener('mouseleave', () => {
-//     isHovering = false;
-//     setTimeout(() => {
-//       if (!isHovering) hideControls();
-//     }, 300);
-//   });
-// });
-
-
-// Projects page
-function initProjectsPage() {
-  // Add any projects page specific functionality here
-  console.log("Projects page initialized");
+// Import baffle dynamically to avoid bundling issues
+async function loadBaffle() {
+    try {
+        const baffleModule = await import('baffle');
+        return baffleModule.default;
+    } catch (error) {
+        console.error('Failed to load baffle:', error);
+        return null;
+    }
 }
 
-function initInfoPage() {
-  //for some reason, baffle screwes up the text wall (links and stuff), so I have to store the original content and then restore it after the baffle effect
-  const container = document.querySelector('.info-text-wall-container');
-  let originalContent = '';
+async function initHomePage() {
+    const baffle = await loadBaffle();
+    if (!baffle) return;
 
-  function storeOriginalContent() {
-    if (container) {
-      originalContent = container.innerHTML;
-    }
-  }
+    const messages = [
+        { content: "Welcome", duration: 4000 },
+        { content: "move me using your mouse", duration: 3000 },
+        { content: "drag with left and right click for rotation and position", duration: 5000 },
+        { content: "zoom using the scroll wheel", duration: 4000 },
+        { content: "you can also play with my lighting effects..", duration: 5000 },
+        { content: "using the scroll bar for light rotation", duration: 5000 },
+        { content: "and the switch for ambient light", duration: 5000 },
+        { content: "check out the menu for more", duration: 4000 }
+    ];
 
-  function applyBaffleAndRestore(duration = 2000, delay = 500) {
-    if (!container) return;
-
-    // Store original content
-    storeOriginalContent();
-
-    // Select elements for baffle effect
-    const elements = container.querySelectorAll('h1, p, li');
-
-    // Apply baffle effect
-    const textWall = baffle(elements, {
-
-      characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
-      speed: 70,
+    let currentIndex = 0;
+    let baffleEffect = baffle('.welcome-text', {
+        characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+        speed: 70,
     });
 
-    textWall.start();
-    textWall.reveal(duration, delay);
+    function displayNextMessage() {
+        if (currentIndex >= messages.length) {
+            handleEndOfMessages();
+            return;
+        }
 
-    // After the effect, restore the original content
+        const currentMessage = messages[currentIndex];
+        baffleEffect.start();
+        baffleEffect.text(() => currentMessage.content).reveal(1500);
+
+        currentIndex++;
+
+        setTimeout(() => {
+            if (currentIndex < messages.length) {
+                displayNextMessage();
+            } else {
+                handleEndOfMessages();
+            }
+        }, currentMessage.duration);
+    }
+
+    function handleEndOfMessages() {
+        console.log("all messages displayed");
+
+        const welcomeText = document.querySelector('.welcome-text');
+        const timeToTextDisappear = 4000;
+        const timeToBaffleBeforeDisappear = 3500;
+        setTimeout(() => {
+            baffleEffect.start();
+        }, timeToBaffleBeforeDisappear);
+        setTimeout(() => {
+            welcomeText.style.display = 'none';
+        }, timeToTextDisappear);
+
+        const jokeTimeout = 120000;
+        setTimeout(() => {
+            baffleEffect.start();
+            welcomeText.style.display = 'inline-block';
+            baffleEffect.text(() => "why are you still here?").reveal(1000);
+        }, jokeTimeout);
+    }
+
+    window.addEventListener('modelLoaded', function() {
+        const initialDelay = 4700;
+        setTimeout(function(){
+            const welcomeText = document.querySelector('.welcome-text');
+            welcomeText.style.display = 'inline-block';
+            displayNextMessage();
+        }, initialDelay);
+    });
+
+    let nametag = baffle('.nametag', {
+        characters: '▒██ ▒▒>>█ >▒<█< ▓▒▒ ▓▒█$▒▓ ▒░/█ ▓▒#▒ ░▓▒▒ >/░▒',
+        speed: 70,
+    });
+
+    nametag.start();
     setTimeout(() => {
-      container.innerHTML = originalContent;
-    }, duration + delay + 250); // Add extra time to ensure effect is complete
-  }
+        const nametagElement = document.querySelector('.nametag');
+        nametagElement.style.display = 'inline-block';
+    }, 60);
 
-  // Run the effect
-  applyBaffleAndRestore(2000, 500);
-
-  console.log("Info page initialized");
+    window.addEventListener('modelLoaded', function() {
+        nametag.reveal(5000, 2000);
+    });
 }
 
 // Main initialization
 document.addEventListener('DOMContentLoaded', function() {
-  initMenu();
-  initMarquee();
-  //anything else you want to load regardless of what page you are on
-
-  // Determine which page we're on and initialize accordingly ( I can probably do this a better way but this works for now lol)
-  if (document.querySelector('.nametag')) {
-    initHomePage();
-  } else if (document.getElementById('projects-container')) {
-    initProjectsPage();
-  } else if (document.getElementById('info-text-wall-container')) {
-    initInfoPage();
-  } else {
-    console.log("No specific page found");
-  }
+    console.log('DOM loaded, initializing...');
+    
+    // Initialize core functionality
+    initMenu();
+    initMarquee();
+    initControlCircles();
+    
+    // Initialize terminal (async)
+    initializeTerminal();
+    
+    // Page-specific initialization
+    if (document.querySelector('.nametag')) {
+        initHomePage();
+    }
+    
+    console.log('Main initialization complete');
 });

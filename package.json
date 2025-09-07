@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "baffle": "^0.3.6",
-    "gsap": "^3.12.5",
+    "gsap": "^3.13.0",
+    "jquery": "^3.7.1",
     "three": "^0.167.1"
   },
   "devDependencies": {

@@ -281,18 +281,18 @@ function loadModelBasic() {
             console.log('Model loaded successfully');
             model = gltf.scene;
 
-            // Log model structure without stringification
-            console.log('Model scene:', model);
-            console.log('Animations:', gltf.animations);
+            // // Log model structure without stringification
+            // console.log('Model scene:', model);
+            // console.log('Animations:', gltf.animations);
 
             // Log children of the model
-            model.traverse((child) => {
-                console.log('Child:', child.type, child.name);
-                if (child.isMesh) {
-                    console.log('- Geometry:', child.geometry.type, 'Vertices:', child.geometry.attributes.position.count);
-                    console.log('- Material:', child.material.type);
-                }
-            });
+            // model.traverse((child) => {
+            //     console.log('Child:', child.type, child.name);
+            //     if (child.isMesh) {
+            //         console.log('- Geometry:', child.geometry.type, 'Vertices:', child.geometry.attributes.position.count);
+            //         console.log('- Material:', child.material.type);
+            //     }
+            // });
 
             // Add model to scene without any modifications
             scene.add(model);
@@ -338,7 +338,7 @@ function loadModelBasic() {
     );
 }
 
-//what is this
+//no idea what this is but the model does NOT work without it LMFAO
 function adjustModelMaterials() {
     model.traverse((child) => {
         if (child.isMesh) {
